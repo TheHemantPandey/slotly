@@ -1,0 +1,92 @@
+// Slotly Atelier Prisma Schema
+// Database: PostgreSQL on Neon Serverless
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum AppointmentStatus {
+  PENDING_INTAKE
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Service {
+  id              String        @id // Stable slug-like ID (e.g. "software-architecture")
+  slug            String        @unique
+  name            String
+  tagline         String
+  description     String        @db.Text
+  durationMinutes Int
+  priceInPaise    Int           // Integer INR minor unit: 1 INR = 100 paise (e.g. ₹1,499 -> 149900)
+  currency        String        @default("INR")
+  category        String
+  deliverables    String[]      // Postgres native text array
+  idealFor        String?
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  appointments    Appointment[]
+
+  @@index([isActive, category])
+}
+
+model AvailabilityRule {
+  id              String        @id @default(cuid())
+  weekday         Int           // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+  startTime       String        // "09:00" in HH:mm 24-hour format
+  endTime         String        // "17:00" in HH:mm 24-hour format
+  timezone        String        @default("Asia/Kolkata")
+  isActive        Boolean       @default(true)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([weekday, isActive])
+}
+
+model Appointment {
+  id                 String            @id @default(cuid())
+  serviceId          String
+  service            Service           @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  
+  // Client details
+  clientName         String
+  clientEmail        String
+  clientNotes        String?           @db.Text
+  
+  // Temporal scheduling (UTC timestamps)
+  startTime          DateTime          // UTC timestamp of appointment start
+  endTime            DateTime          // UTC timestamp of appointment end
+  timezone           String            @default("Asia/Kolkata")
+  
+  // Financial snapshot locked at booking time
+  feeInPaise         Int               // Locked price in paise
+  currency           String            @default("INR")
+  
+  // Lifecycle
+  status             AppointmentStatus @default(PENDING_INTAKE)
+  
+  // Safe cancellation & customer access: store only the SHA-256 hash in DB
+  cancellationToken     String?           @unique
+  cancellationTokenHash String?           @unique
+  cancellationReason    String?           @db.Text
+  cancelledAt           DateTime?
+  
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+
+  // Indexes for performance, conflict detection, and schedule filtering
+  @@index([serviceId])
+  @@index([clientEmail])
+  @@index([status, startTime])
+  @@index([startTime, endTime, status])
+  @@index([cancellationTokenHash])
+}

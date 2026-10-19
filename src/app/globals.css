@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-atelier-bg: #171717;
+  --color-atelier-surface: #222222;
+  --color-atelier-elevated: #292929;
+  --color-atelier-accent: #F0B35A;
+  --color-atelier-accent-hover: #E2A349;
+  --color-atelier-accent-muted: rgba(240, 179, 90, 0.12);
+  --color-atelier-text: #F3EEE5;
+  --color-atelier-text-muted: #A7A29A;
+  --color-atelier-border: #393633;
+  --color-atelier-border-subtle: #2A2724;
+
+  --font-serif: var(--font-newsreader), Georgia, Cambria, serif;
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+:root {
+  --background: #04060e;
+  --foreground: #f4f4f5;
+}
+
+body {
+  background-color: #04060e;
+  color: #f4f4f5;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Executive Indigo Selection */
+::selection {
+  background-color: #4f46e5;
+  color: #ffffff;
+}
+
+/* Architectural grid pattern for editorial atmosphere */
+.bg-grid-atelier {
+  background-image: radial-gradient(circle, #2E2B27 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Subtle glow effects */
+.amber-glow {
+  box-shadow: 0 0 32px -4px rgba(240, 179, 90, 0.15);
+}
+
+.amber-glow-card {
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), 0 0 24px -6px rgba(240, 179, 90, 0.08);
+}
