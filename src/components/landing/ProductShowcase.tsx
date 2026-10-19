@@ -134,12 +134,12 @@ export function ProductShowcase() {
                 <div className="flex items-start gap-3 justify-end">
                   <div className="max-w-[85%] rounded-2xl rounded-tr-sm bg-gradient-to-r from-blue-600 to-indigo-600 p-4 text-white shadow-lg">
                     <div className="flex items-center gap-2 mb-1 opacity-80 text-[11px] font-mono">
-                      <span>Engineering Director</span>
+                      <span>Startup Founder / Client</span>
                       <span>•</span>
                       <span>14:02 IST</span>
                     </div>
                     <p className="text-sm leading-relaxed font-sans">
-                      &quot;I need an architecture review for our payment microservice next Tuesday afternoon.&quot;
+                      &quot;Hi Hemant! We need a fast, responsive Landing Page with a lead form for our product launch next week. Do you have time for a discovery call?&quot;
                     </p>
                   </div>
                   <div className="h-8 w-8 rounded-full bg-zinc-800 border border-white/10 flex items-center justify-center text-zinc-300 shrink-0 mt-1">
@@ -167,7 +167,7 @@ export function ProductShowcase() {
                     </div>
 
                     <p className="text-sm text-zinc-200 leading-relaxed font-sans mb-4">
-                      I checked Hemant&apos;s live schedule for <strong className="text-white font-medium">Software Architecture Consultation</strong>. I found 2 verified slots on <strong className="text-white font-medium">Tuesday, Oct 20th</strong>:
+                      I checked Hemant&apos;s live schedule for <strong className="text-white font-medium">Landing Page Development &amp; Discovery</strong>. I found 2 verified slots on <strong className="text-white font-medium">Tuesday, Oct 20th</strong>:
                     </p>
 
                     {/* Interactive Action Pills with Gentle Shimmer / Glow Pulse */}
@@ -424,7 +424,7 @@ export function ProductShowcase() {
                 <div className="text-[11px] text-zinc-400 space-y-1">
                   <div className="flex justify-between">
                     <span className="text-zinc-500">Lock Target:</span>
-                    <span className="text-zinc-300">slotly_booking_software-architecture</span>
+                    <span className="text-zinc-300">slotly_booking_landing-page-development</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-zinc-500">Selected Slot:</span>
@@ -441,7 +441,7 @@ export function ProductShowcase() {
             {/* Bottom Direct Booking CTA */}
             <div className="mt-8 pt-5 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <span className="text-xs text-zinc-400 font-sans">
-                Ready to book your dedicated tech review?
+                Ready to discuss your website or web app project?
               </span>
               <motion.div
                 whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
@@ -449,10 +449,10 @@ export function ProductShowcase() {
                 className="w-full sm:w-auto"
               >
                 <Link
-                  href="/book?service=software-architecture"
+                  href="/book?service=landing-page-development"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 text-xs font-mono font-semibold transition-all shadow-md group"
                 >
-                  <span>Book Architecture Session</span>
+                  <span>Book Project Discovery Call</span>
                   <ArrowRight className="w-3.5 h-3.5 text-zinc-950 transition-transform group-hover:translate-x-1" />
                 </Link>
               </motion.div>

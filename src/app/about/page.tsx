@@ -6,9 +6,9 @@ import { AboutView } from "@/components/about/AboutView";
 import { UserCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Slotly & Hemant Pandey | Architecture & Engineering Profile",
+  title: "About Hemant Pandey | Freelance Web Developer & Systems Engineer",
   description:
-    "Learn about Slotly's deterministic scheduling architecture, core philosophies, developer runbook, and creator Hemant Pandey — Principal Software Architect.",
+    "Meet Hemant Pandey, full-stack engineer and web architect offering professional web development services, custom web applications, and technical advisory.",
 };
 
 export default function AboutPage() {
@@ -38,15 +38,13 @@ export default function AboutPage() {
           <div className="max-w-3xl mb-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-950/40 text-xs font-mono text-blue-300 mb-4 shadow-xs">
               <UserCheck className="w-3.5 h-3.5 text-blue-400" />
-              <span>Architect Profile &amp; System Runbook</span>
+              <span>Developer Profile &amp; Service Standards</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Engineering High-Availability Systems &amp; Deterministic AI Infrastructure.
+              Full-Stack Web Development &amp; Custom Engineering for Clients Worldwide.
             </h1>
             <p className="mt-3 text-base sm:text-lg text-zinc-400 leading-relaxed font-sans">
-              Slotly was conceived and engineered by <strong>Hemant Pandey</strong> to demonstrate
-              how transactional database primitives and generative AI can converge into a zero-compromise
-              advisory scheduling engine.
+              Built and architected by <strong>Hemant Pandey</strong>. Offering 8 focused web development services—from high-converting landing pages to full-scale e-commerce stores and custom web applications—backed by production-grade engineering rigor.
             </p>
           </div>
 

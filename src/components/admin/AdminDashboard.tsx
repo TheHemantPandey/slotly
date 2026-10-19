@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import {
@@ -53,6 +53,11 @@ interface ServiceOption {
   name: string;
 }
 
+const EXIT_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes away from admin panel
+const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes idle in admin panel
+const STORAGE_SAVED_EMAIL_KEY = "slotly_admin_saved_email";
+const STORAGE_LAST_ACTIVE_KEY = "slotly_admin_last_active";
+
 export function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [adminEmail, setAdminEmail] = useState<string>("");
@@ -64,6 +69,10 @@ export function AdminDashboard() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
+
+  const lastActivityRef = useRef<number>(Date.now());
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   // Dashboard Data State
   const [stats, setStats] = useState<AdminStats | null>(null);
@@ -84,11 +93,41 @@ export function AdminDashboard() {
   const [adminCancelError, setAdminCancelError] = useState<string | null>(null);
   const [actionSuccessMsg, setActionSuccessMsg] = useState<string | null>(null);
 
-  // 1. Check current admin session on mount
+  // Load saved admin email from localStorage
+  useEffect(() => {
+    try {
+      const savedEmail = localStorage.getItem(STORAGE_SAVED_EMAIL_KEY);
+      if (savedEmail) {
+        setEmailInput(savedEmail);
+      }
+    } catch {
+      // non-blocking
+    }
+  }, []);
+
+  // 1. Check current admin session on mount (with 10-minute away check)
   useEffect(() => {
     let active = true;
 
     async function checkSession() {
+      // Check if user was away from admin panel for more than 10 minutes
+      try {
+        const lastActiveStr = localStorage.getItem(STORAGE_LAST_ACTIVE_KEY);
+        if (lastActiveStr) {
+          const lastActive = parseInt(lastActiveStr, 10);
+          if (!isNaN(lastActive) && Date.now() - lastActive > EXIT_TIMEOUT_MS) {
+            await fetch("/api/admin/auth/logout", { method: "POST" });
+            if (active) {
+              setIsAuthenticated(false);
+              setSessionNotice("You were away from the admin panel for more than 10 minutes. Please enter your password to continue.");
+            }
+            return;
+          }
+        }
+      } catch {
+        // non-blocking
+      }
+
       try {
         const res = await fetch("/api/admin/auth/me");
         const data = await res.json();
@@ -96,6 +135,9 @@ export function AdminDashboard() {
           if (res.ok && data.authenticated && data.admin?.email) {
             setIsAuthenticated(true);
             setAdminEmail(data.admin.email);
+            try {
+              localStorage.setItem(STORAGE_LAST_ACTIVE_KEY, String(Date.now()));
+            } catch {}
           } else {
             setIsAuthenticated(false);
           }
@@ -110,6 +152,101 @@ export function AdminDashboard() {
       active = false;
     };
   }, []);
+
+  // 2. Check 10-minute away timeout when switching back to tab / window focus
+  useEffect(() => {
+    const handleVisibilityOrFocus = async () => {
+      if (document.visibilityState === "visible") {
+        try {
+          const lastActiveStr = localStorage.getItem(STORAGE_LAST_ACTIVE_KEY);
+          if (lastActiveStr && isAuthenticated === true) {
+            const lastActive = parseInt(lastActiveStr, 10);
+            if (!isNaN(lastActive) && Date.now() - lastActive > EXIT_TIMEOUT_MS) {
+              await fetch("/api/admin/auth/logout", { method: "POST" });
+              setIsAuthenticated(false);
+              setSessionNotice("You were away from the admin panel for more than 10 minutes. Please enter your password to continue.");
+              setPasswordInput("");
+            }
+          }
+        } catch {
+          // non-blocking
+        }
+      }
+    };
+
+    window.addEventListener("focus", handleVisibilityOrFocus);
+    document.addEventListener("visibilitychange", handleVisibilityOrFocus);
+
+    return () => {
+      window.removeEventListener("focus", handleVisibilityOrFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityOrFocus);
+    };
+  }, [isAuthenticated]);
+
+  // 3. 30-minute Inactivity Auto-Logout Tracker
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    lastActivityRef.current = Date.now();
+    try {
+      localStorage.setItem(STORAGE_LAST_ACTIVE_KEY, String(Date.now()));
+    } catch {}
+
+    let throttleTimer: NodeJS.Timeout | null = null;
+    const onUserActivity = () => {
+      const now = Date.now();
+      lastActivityRef.current = now;
+      if (!throttleTimer) {
+        throttleTimer = setTimeout(() => {
+          throttleTimer = null;
+          try {
+            localStorage.setItem(STORAGE_LAST_ACTIVE_KEY, String(Date.now()));
+          } catch {}
+        }, 5000);
+      }
+    };
+
+    const activityEvents = [
+      "mousemove",
+      "mousedown",
+      "keydown",
+      "touchstart",
+      "scroll",
+      "click",
+    ];
+
+    activityEvents.forEach((ev) => {
+      window.addEventListener(ev, onUserActivity, { passive: true });
+    });
+
+    // Check inactivity every 15 seconds
+    const interval = setInterval(async () => {
+      const idleTime = Date.now() - lastActivityRef.current;
+      if (idleTime >= INACTIVITY_TIMEOUT_MS) {
+        try {
+          await fetch("/api/admin/auth/logout", { method: "POST" });
+        } catch {}
+        setIsAuthenticated(false);
+        setSessionNotice("You were logged out due to 30 minutes of inactivity. Please enter your password to resume.");
+        setPasswordInput("");
+      }
+    }, 15000);
+
+    return () => {
+      activityEvents.forEach((ev) => {
+        window.removeEventListener(ev, onUserActivity);
+      });
+      if (throttleTimer) clearTimeout(throttleTimer);
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
+
+  // 4. Auto-focus password input when returning to login with saved email
+  useEffect(() => {
+    if (isAuthenticated === false && emailInput && passwordInputRef.current) {
+      passwordInputRef.current.focus();
+    }
+  }, [isAuthenticated, emailInput]);
 
   // 2. Fetch services for dropdown
   useEffect(() => {
@@ -253,6 +390,18 @@ export function AdminDashboard() {
       setIsAuthenticated(true);
       setAdminEmail(data.admin.email);
       setPasswordInput("");
+      setSessionNotice(null);
+
+      // Save email in localStorage for password-only re-login and record active time
+      try {
+        localStorage.setItem(
+          STORAGE_SAVED_EMAIL_KEY,
+          data.admin?.email || emailInput.trim().toLowerCase()
+        );
+        localStorage.setItem(STORAGE_LAST_ACTIVE_KEY, String(Date.now()));
+      } catch {
+        // non-blocking
+      }
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "An unexpected sign-in error occurred.";
       setLoginError(msg);
@@ -272,6 +421,13 @@ export function AdminDashboard() {
       setAdminEmail("");
       setAppointments([]);
       setStats(null);
+      setPasswordInput("");
+      setSessionNotice(null);
+      try {
+        localStorage.removeItem(STORAGE_LAST_ACTIVE_KEY);
+      } catch {
+        // non-blocking
+      }
     }
   };
 
@@ -336,6 +492,22 @@ export function AdminDashboard() {
             Access protected with PBKDF2 cryptography. Enter verified administrative credentials to inspect and manage schedules.
           </p>
 
+          {sessionNotice && (
+            <div className="mb-6 p-4 rounded-xl bg-amber-950/40 border border-amber-500/40 text-amber-200 text-xs font-mono flex items-start justify-between gap-3 shadow-md">
+              <div className="flex items-center gap-2.5">
+                <Clock className="w-4 h-4 shrink-0 text-amber-400 animate-pulse mt-0.5" />
+                <span>{sessionNotice}</span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSessionNotice(null)}
+                className="text-amber-400 hover:text-white text-xs font-mono cursor-pointer shrink-0 ml-2 underline"
+              >
+                Dismiss
+              </button>
+            </div>
+          )}
+
           {loginError && (
             <div className="mb-6 p-4 rounded-xl bg-rose-950/40 border border-rose-500/40 text-rose-300 text-xs font-mono flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
@@ -345,9 +517,17 @@ export function AdminDashboard() {
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider mb-2">
-                Administrator Email
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-mono text-zinc-400 uppercase tracking-wider">
+                  Administrator Email
+                </label>
+                {emailInput && (
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/25 px-2 py-0.5 rounded flex items-center gap-1">
+                    <CheckCircle2 className="w-2.5 h-2.5" />
+                    <span>Saved Email</span>
+                  </span>
+                )}
+              </div>
               <div className="relative">
                 <Mail className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
@@ -368,6 +548,7 @@ export function AdminDashboard() {
               <div className="relative">
                 <Lock className="w-4 h-4 text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 <input
+                  ref={passwordInputRef}
                   type={showPassword ? "text" : "password"}
                   value={passwordInput}
                   onChange={(e) => setPasswordInput(e.target.value)}
@@ -443,9 +624,16 @@ export function AdminDashboard() {
               Live DB
             </span>
           </div>
-          <p className="text-xs font-mono text-zinc-400">
-            Authenticated Admin: <strong className="text-white">{adminEmail}</strong>
-          </p>
+          <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono text-zinc-400 mt-1">
+            <span>
+              Authenticated Admin: <strong className="text-white">{adminEmail}</strong>
+            </span>
+            <span className="text-zinc-600 hidden sm:inline">•</span>
+            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[11px]">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Auto-locks: 30m idle / 10m away</span>
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">

@@ -6,9 +6,9 @@ import { BookingWizard } from "@/components/booking/BookingWizard";
 import { ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Book an Advisory Session | Slotly",
+  title: "Book a Project Consultation | Slotly",
   description:
-    "Schedule an executive advisory session with guaranteed zero double-bookings, verified instant locking, and real-time IST calendar sync.",
+    "Schedule a web development consultation or project discovery call with Hemant Pandey. Real-time calendar sync, direct developer intake, and guaranteed zero double-bookings.",
 };
 
 export default function BookPage() {
@@ -37,13 +37,13 @@ export default function BookPage() {
           <div className="max-w-3xl mb-12 text-center sm:text-left mx-auto sm:mx-0">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-xs font-mono text-emerald-300 mb-4 shadow-xs">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Deterministic Scheduling Chamber</span>
+              <span>Project Consultation &amp; Discovery</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Reserve your advisory window.
+              Schedule your project discussion.
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
-              Complete the structured multi-step intake to verify your service track, date, time window, and briefing goals. Backed by real-time concurrency locks.
+              Select one of our 8 service tracks, choose an available date and time slot, and share your project requirements. Connect directly with Hemant Pandey with instant confirmation.
             </p>
           </div>
 

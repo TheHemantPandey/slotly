@@ -43,7 +43,7 @@ export default function AssistantPage() {
               Slotly AI Concierge
             </h1>
             <p className="mt-2 text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
-              Conversational intelligence that holds direct database tools. Query live availability, evaluate architecture requirements, and sign tamper-proof appointment proposals.
+              Conversational intelligence that holds direct database tools. Query live availability, explore our 8 freelance web development services, and schedule project discovery calls.
             </p>
           </div>
 

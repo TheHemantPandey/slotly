@@ -36,48 +36,48 @@ interface PhilosophyItem {
 
 const PHILOSOPHIES: PhilosophyItem[] = [
   {
-    id: "deterministic",
+    id: "direct-partnership",
     number: "01",
     icon: Lock,
-    title: "Deterministic Systems",
-    tagline: "Atomic Database Locking",
+    title: "Direct Engineering Partnership",
+    tagline: "Direct Execution, Zero Agency Overhead",
     description:
-      "Replacing chaotic calendar ping-pong with PostgreSQL advisory transactions. `pg_advisory_xact_lock` serializes concurrent booking requests at the database engine level, guaranteeing zero double-booking race conditions.",
+      "Work directly with Hemant Pandey. No account managers, no communication bottlenecks, and no inflated agency fees. Clear milestone delivery, fast communication, and agile turnaround.",
     accent: "from-blue-500/20 to-indigo-500/10 border-blue-500/30 text-blue-400",
-    badge: "ACID Isolation",
+    badge: "Zero Middlemen",
   },
   {
-    id: "ai-authority",
+    id: "performance-seo",
     number: "02",
     icon: Bot,
-    title: "AI with Real Authority",
-    tagline: "Transactional Tool Calling",
+    title: "Mobile-First & High Performance",
+    tagline: "Core Web Vitals & Search Visibility",
     description:
-      "Coupling Gemini 3.8 Flash directly with server availability schemas. The assistant never hallucinates open slots; it queries active database state in real-time and signs proposals with tamper-proof HMAC-SHA256 signatures.",
+      "Every website is crafted with modern semantic markup and fluid styling for seamless performance across smartphones, tablets, and desktops, optimized for search engines (SEO) and high conversions.",
     accent: "from-indigo-500/20 to-violet-500/10 border-indigo-500/30 text-indigo-400",
-    badge: "HMAC Security",
+    badge: "Mobile & SEO",
   },
   {
-    id: "privacy",
+    id: "modern-stack",
     number: "03",
     icon: ShieldCheck,
-    title: "Privacy by Design",
-    tagline: "Cryptographic Entropy Tokens",
+    title: "Modern Full-Stack Architecture",
+    tagline: "Next.js 16, React 19 & Serverless SQL",
     description:
-      "Clients access their reservations via 256-bit entropy tokens where only the irreversible SHA-256 hash is persisted. No account registration, passwords, or tracking cookies required.",
+      "Leveraging Next.js App Router, React 19, serverless PostgreSQL with Neon, and Prisma ORM to ensure lightning-fast page loads, rock-solid security, and effortless scalability as your business grows.",
     accent: "from-emerald-500/20 to-teal-500/10 border-emerald-500/30 text-emerald-400",
-    badge: "Zero-Knowledge",
+    badge: "Modern Stack",
   },
   {
-    id: "pragmatic",
+    id: "full-ownership",
     number: "04",
     icon: Layers,
-    title: "Pragmatic Architecture",
-    tagline: "Decoupled Commitment",
+    title: "100% Code Ownership & Zero Lock-in",
+    tagline: "Clean Handover & Free Deployment",
     description:
-      "Strict separation between conversational negotiation and booking commitment. The final appointment persistence is executed by a dedicated server route without invoking LLM calls, ensuring absolute fault-tolerance.",
+      "Clients receive 100% ownership of all repository code, credentials, and design assets upon completion. Free setup and deployment to Vercel or your hosting provider of choice.",
     accent: "from-amber-500/20 to-orange-500/10 border-amber-500/30 text-amber-400",
-    badge: "Proven Resilience",
+    badge: "Full Ownership",
   },
 ];
 
@@ -191,7 +191,7 @@ export function AboutView() {
               <div className="flex flex-wrap items-center gap-2.5">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-xs font-mono text-emerald-300 shadow-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-xs shadow-emerald-400" />
-                  <span>Available for Advisory</span>
+                  <span>Available for Client Projects</span>
                 </div>
 
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/10 bg-white/[0.04] text-xs font-mono text-zinc-300">
@@ -200,7 +200,7 @@ export function AboutView() {
                 </div>
 
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-blue-500/30 bg-blue-950/40 text-xs font-mono text-blue-300">
-                  <span>Slotly Architect</span>
+                  <span>8 Freelance Web Services</span>
                 </div>
               </div>
 
@@ -210,13 +210,13 @@ export function AboutView() {
                   Hemant Pandey
                 </h1>
                 <p className="mt-2 text-lg sm:text-xl font-mono text-indigo-300 font-medium">
-                  Principal Software Architect &amp; Full-Stack Systems Engineer
+                  Full-Stack Web Developer &amp; Systems Engineer
                 </p>
                 <p className="mt-4 text-base text-zinc-400 leading-relaxed max-w-2xl font-sans">
-                  Specialized in architecting resilient distributed systems, transactional concurrency
-                  controls, and high-availability AI infrastructure. Creator and lead engineer of
-                  Slotly — built to prove that enterprise calendar scheduling can be deterministic,
-                  conflict-free, and cryptographically verified.
+                  Specialized in crafting high-converting websites, custom web applications, e-commerce
+                  platforms, and appointment systems for businesses, startups, and individuals.
+                  Offering 8 practical web development services with transparent upfront pricing,
+                  fast turnaround, direct developer execution, and 100% full source code ownership.
                 </p>
               </div>
 
@@ -226,15 +226,13 @@ export function AboutView() {
                   whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
                   whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
                 >
-                  <a
-                    href="https://hemantpandey.in"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href="/services"
                     className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 text-white text-sm font-mono font-medium hover:from-blue-500 hover:to-violet-500 transition-all shadow-lg shadow-indigo-500/25 border border-indigo-400/30 cursor-pointer"
                   >
-                    <span>Visit Portfolio: hemantpandey.in</span>
-                    <ExternalLink className="w-4 h-4 text-indigo-200" />
-                  </a>
+                    <span>View All 8 Services</span>
+                    <ArrowRight className="w-4 h-4 text-indigo-200" />
+                  </Link>
                 </motion.div>
 
                 <Link
@@ -242,8 +240,18 @@ export function AboutView() {
                   className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-white/15 bg-white/[0.04] text-zinc-200 text-sm font-mono hover:bg-white/[0.08] hover:text-white transition-all cursor-pointer"
                 >
                   <Calendar className="w-4 h-4 text-zinc-400" />
-                  <span>Book Consultation</span>
+                  <span>Book Discovery Call</span>
                 </Link>
+
+                <a
+                  href="https://hemantpandey.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-white/10 bg-white/[0.02] text-zinc-400 text-xs font-mono hover:text-white hover:border-white/20 transition-all cursor-pointer"
+                >
+                  <span>hemantpandey.in</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-zinc-400" />
+                </a>
               </div>
             </div>
 
@@ -257,7 +265,7 @@ export function AboutView() {
                     <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-blue-500 via-indigo-500 to-emerald-400 opacity-60 blur-xs group-hover:opacity-100 transition-opacity" />
                     <Image
                       src="/images/dev_hemantpandey.jpg"
-                      alt="Hemant Pandey - Principal Software Architect"
+                      alt="Hemant Pandey - Full-Stack Web Developer"
                       width={120}
                       height={120}
                       className="relative h-28 w-28 rounded-2xl object-cover ring-2 ring-white/20 shadow-xl group-hover:scale-105 transition-transform duration-300"
@@ -265,14 +273,14 @@ export function AboutView() {
                     />
                     <span
                       className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 ring-2 ring-[#090e1d] shadow-sm shadow-emerald-400 animate-pulse"
-                      title="Available for Advisory"
+                      title="Available for Projects"
                     />
                   </div>
                   <span className="text-base font-semibold tracking-tight text-white font-sans">
                     Hemant Pandey
                   </span>
                   <span className="text-xs font-mono text-zinc-400 mt-0.5">
-                    Principal Systems Architect
+                    Full-Stack Web Developer
                   </span>
                   <div className="mt-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono text-emerald-300">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
@@ -479,17 +487,16 @@ export function AboutView() {
               className="w-6.5 h-6.5 rounded-full object-cover ring-1 ring-white/30"
             />
             <span className="text-xs font-mono text-indigo-200">
-              Direct Advisory with Hemant Pandey
+              Direct Collaboration with Hemant Pandey
             </span>
           </div>
 
           <h2 className="mx-auto max-w-3xl text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Need an architecture review or technical advisory session?
+            Have a website or web application project in mind?
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-base sm:text-lg text-zinc-300 leading-relaxed font-sans">
-            Engage Hemant Pandey for high-touch software architecture audits, distributed systems
-            strategy, and production AI integration.
+            Choose from 8 practical web development services starting at ₹999 or schedule a discovery call to discuss your custom project requirements and timeline.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -498,12 +505,25 @@ export function AboutView() {
               whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
             >
               <Link
-                href="/book"
+                href="/services"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 text-white text-sm font-mono font-medium tracking-wide hover:from-blue-500 hover:to-emerald-500 transition-all shadow-xl shadow-emerald-500/20 border border-emerald-400/30 cursor-pointer"
               >
                 <Calendar className="w-4 h-4 text-emerald-200" />
-                <span>Book Advisory Session</span>
+                <span>Explore All 8 Services</span>
                 <ArrowRight className="w-4 h-4 text-white" />
+              </Link>
+            </motion.div>
+
+            <motion.div
+              whileHover={shouldReduceMotion ? {} : { scale: 1.02 }}
+              whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+            >
+              <Link
+                href="/book"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/15 bg-white/[0.04] text-zinc-200 text-sm font-mono tracking-wide hover:bg-white/[0.08] hover:text-white hover:border-white/25 transition-all backdrop-blur-sm cursor-pointer"
+              >
+                <Calendar className="w-4 h-4 text-zinc-400" />
+                <span>Book Discovery Call</span>
               </Link>
             </motion.div>
 

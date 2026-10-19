@@ -28,10 +28,10 @@ export function IntegrityBar() {
           <div className="max-w-xl">
             <div className="flex items-center justify-center lg:justify-start gap-2 text-xs font-mono text-zinc-400 mb-1.5">
               <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span className="uppercase tracking-wider">Enterprise Architecture Standard</span>
+              <span className="uppercase tracking-wider">Full-Stack Engineering Standards</span>
             </div>
             <p className="text-sm sm:text-base font-medium text-zinc-200 font-sans">
-              Built for high-velocity founders, enterprise leaders, and engineering teams.
+              Delivering high-converting websites &amp; custom web applications for startups, local businesses, and individuals.
             </p>
           </div>
 

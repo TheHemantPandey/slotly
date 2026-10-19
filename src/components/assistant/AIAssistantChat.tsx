@@ -18,10 +18,10 @@ import {
 } from "lucide-react";
 
 const SUGGESTED_PROMPTS = [
-  "Recommend an advisory track for payment microservices",
-  "Check available slots for Software Architecture consultation this week",
-  "Which consultation is best for Next.js App Router performance?",
-  "What does the AI Integration session include?",
+  "How much does a Landing Page cost and what is included?",
+  "Check available slots for Landing Page Development this week",
+  "I need a 5-page Business Website for my clinic or shop",
+  "Can you build an E-commerce store with online payments?",
 ];
 
 const INITIAL_MESSAGES: AssistantMessage[] = [
@@ -29,10 +29,10 @@ const INITIAL_MESSAGES: AssistantMessage[] = [
     id: "msg-welcome",
     role: "assistant",
     content:
-      "Welcome to the Slotly Concierge powered by Google Gemini 3.8 Flash. I am your intentional scheduling advisor. I can cross-reference our live service catalog, check PostgreSQL availability in real-time, stage verified consultations, or review existing bookings.\n\nHow may I guide your advisory schedule today?",
+      "Welcome to the Slotly Concierge powered by Google Gemini 3.8 Flash. I can help you explore Hemant's 8 freelance web services (from Landing Pages starting at ₹2,999 to custom Web Applications), check live calendar availability, or stage a project discovery call.\n\nWhat kind of website or project are you looking to build?",
     timestamp: "Just now",
     suggestedAction: {
-      label: "Explore All Advisory Tracks",
+      label: "Explore All 8 Services",
       href: "/services",
     },
   },

@@ -13,24 +13,24 @@ import {
 
 const TRUST_METRICS = [
   {
-    icon: ShieldCheck,
-    title: "Zero Overlaps",
-    description: "Guaranteed instant slot lock via ACID database transactions.",
-    badge: "100% Conflict-Free",
+    icon: Zap,
+    title: "Fast Turnaround",
+    description: "Landing pages in 2–4 days; business sites in 5–8 days with milestone demos.",
+    badge: "2–8 Days Delivery",
     color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
   },
   {
-    icon: Lock,
-    title: "Verified Bookings",
-    description: "Cryptographically secure proposals with tamper-proof signatures.",
-    badge: "HMAC-SHA256",
+    icon: ShieldCheck,
+    title: "Transparent Pricing",
+    description: "Clear starting rates in INR with detailed deliverables and zero hidden charges.",
+    badge: "Starting at ₹999",
     color: "text-blue-400 bg-blue-500/10 border-blue-500/30",
   },
   {
-    icon: Zap,
-    title: "Instant Confirmation",
-    description: "Direct server writes confirm sessions in under 1 second.",
-    badge: "< 1s Finalization",
+    icon: Lock,
+    title: "100% Code Ownership",
+    description: "Built with Next.js & React. Full source code handover with zero platform lock-in.",
+    badge: "Full Ownership",
     color: "text-violet-400 bg-violet-500/10 border-violet-500/30",
   },
 ];
@@ -146,9 +146,9 @@ export function HeroSection() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 duration-1000" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400 shadow-xs shadow-emerald-300" />
               </span>
-              <span className="text-zinc-400 font-normal">LIVE ADVISORY CALENDAR</span>
+              <span className="text-zinc-400 font-normal">OPEN FOR NEW CLIENT PROJECTS</span>
               <span className="text-zinc-600">•</span>
-              <span className="font-semibold text-emerald-300">ASIA/KOLKATA (IST)</span>
+              <span className="font-semibold text-emerald-300">FREELANCE WEB SERVICES</span>
             </div>
           </motion.div>
 
@@ -158,20 +158,20 @@ export function HeroSection() {
             className="mx-auto max-w-4xl text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight leading-[1.08]"
           >
             <span className="bg-gradient-to-r from-white via-zinc-100 to-blue-200 bg-clip-text text-transparent">
-              Book World-Class Tech Advisory in Seconds.
+              Websites &amp; Web Apps Built to Grow Your Business.
             </span>
           </motion.h1>
 
           {/* Executive Subline */}
           <motion.p
             variants={itemVariants}
-            className="mx-auto mt-6 max-w-2xl text-base sm:text-lg text-zinc-400 leading-relaxed font-sans"
+            className="mx-auto mt-6 max-w-2xl text-base sm:text-lg text-zinc-300 leading-relaxed font-sans"
           >
-            Direct access to senior technology consultants. Guaranteed zero double-bookings,
-            conflict-free scheduling, and verified instant calendar confirmation.
+            Direct freelance web engineering for individuals, local businesses, shops, and startups.
+            High-converting landing pages, business websites, e-commerce stores, and custom web apps with transparent pricing starting at ₹999.
           </motion.p>
 
-          {/* Action CTAs with Deliverable 6 Shimmer & Spring Click Feedback */}
+          {/* Action CTAs */}
           <motion.div
             variants={itemVariants}
             className="mt-9 flex flex-wrap items-center justify-center gap-4"
@@ -182,8 +182,8 @@ export function HeroSection() {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <Link
-                href="/book"
-                className="relative overflow-hidden inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 text-white text-sm font-mono font-medium tracking-wide hover:from-blue-500 hover:to-emerald-500 transition-all shadow-xl shadow-emerald-500/20 border border-emerald-400/40 group"
+                href="/services"
+                className="relative overflow-hidden inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 text-white text-sm font-mono font-medium tracking-wide hover:from-blue-500 hover:to-emerald-500 transition-all shadow-xl shadow-emerald-500/20 border border-emerald-400/40 group"
               >
                 {/* Continuous Diagonal Light Shimmer */}
                 {!shouldReduceMotion && (
@@ -200,8 +200,7 @@ export function HeroSection() {
                     }}
                   />
                 )}
-                <Calendar className="w-4 h-4 text-emerald-200 transition-transform group-hover:scale-110 relative z-10" />
-                <span className="relative z-10">Book Advisory Session</span>
+                <span className="relative z-10">Explore 8 Services &amp; Pricing</span>
                 <ArrowRight className="w-4 h-4 text-white transition-transform group-hover:translate-x-1 relative z-10" />
               </Link>
             </motion.div>
@@ -212,10 +211,11 @@ export function HeroSection() {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <Link
-                href="/services"
+                href="/book"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/15 bg-white/[0.04] text-zinc-200 text-sm font-mono tracking-wide hover:bg-white/[0.08] hover:text-white hover:border-white/25 transition-all backdrop-blur-sm"
               >
-                <span>Browse Advisory Tracks</span>
+                <Calendar className="w-4 h-4 text-zinc-400" />
+                <span>Book a Project Call</span>
               </Link>
             </motion.div>
           </motion.div>

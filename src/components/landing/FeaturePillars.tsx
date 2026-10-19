@@ -18,47 +18,47 @@ interface BenefitItem {
 const BENEFITS: BenefitItem[] = [
   {
     num: "01",
-    icon: Lock,
-    title: "Guaranteed Zero Double-Bookings",
-    headline: "Millisecond-level transactional locks",
+    icon: Cpu,
+    title: "Direct Developer Partnership",
+    headline: "Zero middlemen, direct engineering execution",
     description:
-      "Our database transactions lock availability windows at the millisecond level. If a slot is visible on your screen, it is truly yours—eliminating embarrassing booking collisions forever.",
+      "Work directly with Hemant Pandey. No account managers, no communication bottlenecks, and no inflated agency markups. You get direct collaboration, rapid turnaround, and clear milestone progress.",
     color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/30",
     glow: "hover:border-emerald-500/40",
-    badge: "Deterministic Locks",
+    badge: "Direct Execution",
   },
   {
     num: "02",
-    icon: Cpu,
-    title: "AI with Real Authority",
-    headline: "Direct database tools, no hallucinations",
+    icon: Lock,
+    title: "Transparent Fixed Pricing",
+    headline: "Starting at ₹999 with zero hidden surprises",
     description:
-      "The AI Concierge doesn't guess, hallucinate, or scrape calendars. It holds direct server authorization to verify genuine availability and sign authentic appointment proposals.",
+      "Clear, upfront scope and fixed pricing for every project. From single-page landing pages to full-scale web applications, you receive detailed milestone quotes before any work begins.",
     color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/30",
     glow: "hover:border-indigo-500/40",
-    badge: "Direct Engine Access",
+    badge: "Fixed Upfront Pricing",
   },
   {
     num: "03",
     icon: KeyRound,
-    title: "Privacy by Design",
-    headline: "Zero plaintext token storage",
+    title: "Mobile-First & Blazing Fast",
+    headline: "100% responsive, optimized for Core Web Vitals",
     description:
-      "We store zero plaintext booking tokens in our database. Your customer management links are protected with high-entropy SHA-256 cryptographic hashing to ensure strict client confidentiality.",
+      "Every site is engineered for speed, search engines (SEO), and high conversion. Beautifully responsive across smartphones, tablets, and desktops with clean, modern semantic code.",
     color: "text-violet-400 bg-violet-500/10 border-violet-500/30",
     glow: "hover:border-violet-500/40",
-    badge: "SHA-256 Protected",
+    badge: "Mobile-First & SEO",
   },
   {
     num: "04",
     icon: RefreshCw,
-    title: "Seamless Rescheduling & Cancellation",
-    headline: "One-click self-service empowerment",
+    title: "100% Full Code Ownership",
+    headline: "Complete source code, zero vendor lock-in",
     description:
-      "Dedicated, authenticated self-service links empower clients to manage, reschedule, or cancel sessions with a single click—no back-and-forth emails, no scheduling friction.",
+      "You receive 100% ownership of your source code, design assets, and database credentials upon completion. Free setup and deployment to Vercel or your hosting provider of choice.",
     color: "text-blue-400 bg-blue-500/10 border-blue-500/30",
     glow: "hover:border-blue-500/40",
-    badge: "One-Click Control",
+    badge: "Full Code Ownership",
   },
 ];
 
@@ -123,10 +123,10 @@ function BenefitCard({ benefit }: { benefit: BenefitItem }) {
       </div>
 
       <div className="mt-8 pt-5 border-t border-white/[0.08] flex items-center justify-between font-mono text-xs text-zinc-500 relative z-10">
-        <span className="text-zinc-500">SLOTLY ENTERPRISE INVARIANT</span>
+        <span className="text-zinc-500">CLIENT DELIVERY GUARANTEE</span>
         <span className="text-emerald-400 flex items-center gap-1.5 font-semibold">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          VERIFIED ACTIVE
+          100% COMMITTED
         </span>
       </div>
     </motion.div>
@@ -159,14 +159,13 @@ export function FeaturePillars() {
         <div className="max-w-3xl mb-16">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-xs font-mono text-emerald-300 mb-3 shadow-xs">
             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Enterprise Reliability</span>
+            <span>Client-First Engineering</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Why Leaders Choose Slotly.
+            Why Founders, Businesses &amp; Agencies Choose Me.
           </h2>
           <p className="mt-4 text-base sm:text-lg text-zinc-400 leading-relaxed font-sans">
-            Built for engineering directors, CTOs, and high-velocity founders who value their time.
-            Experience industrial reliability where every commitment is locked with mathematical precision.
+            No bloated agency overhead or junior handoffs. Every website and web application is built directly with engineering rigor—blazing fast, mobile-first, and delivered on time with transparent fixed pricing.
           </p>
         </div>
 

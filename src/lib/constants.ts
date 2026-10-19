@@ -7,7 +7,7 @@ export const BRAND = {
   name: "Slotly",
   tagline: "Your time, intentionally spent.",
   description:
-    "A bespoke, AI-assisted appointment scheduling platform tailored for high-touch consulting practices and elite technology advisory services.",
+    "Professional freelance web development services and custom web applications for businesses, startups, local shops, and creators by Hemant Pandey.",
   foundedYear: 2026,
   status: "Active Atelier",
 } as const;
@@ -36,20 +36,20 @@ export const NAVIGATION_LINKS = [
 export const FEATURE_PILLARS = [
   {
     code: "01",
-    title: "Curated Practice Calendars",
+    title: "Direct Developer Partnership",
     description:
-      "Intelligent availability windows tailored to executive consulting cadence, preserving deep work while accommodating high-value client advisory sessions.",
+      "Work directly with Hemant Pandey. Transparent fixed milestones, direct communication, and zero agency overhead.",
   },
   {
     code: "02",
-    title: "Intentional AI Concierge",
+    title: "8 Practical Web Services",
     description:
-      "A context-aware scheduling intelligence that orchestrates briefs, validates prerequisites, and protects your calendar boundaries through verified server tools.",
+      "From ₹2,999 landing pages to full-scale e-commerce and booking platforms, all tailored to client goals with fixed upfront pricing.",
   },
   {
     code: "03",
-    title: "Sovereign Data Persistence",
+    title: "Production-Grade Engineering",
     description:
-      "Engineered on a dedicated PostgreSQL foundation with strict transactional integrity, real-time availability confirmation, and zero friction booking.",
+      "Built with Next.js, React, Tailwind CSS, and PostgreSQL. 100% responsive, SEO-ready, with complete source code ownership.",
   },
 ] as const;

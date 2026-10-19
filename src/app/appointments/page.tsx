@@ -6,9 +6,9 @@ import { AppointmentsManager } from "@/components/appointments/AppointmentsManag
 import { Search } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Advisory Appointments & Booking Registry | Slotly",
+  title: "Project Appointments & Booking Registry | Slotly",
   description:
-    "Look up, inspect, or manage your upcoming technical advisory sessions using your private SHA-256 booking token.",
+    "Look up, inspect, or manage your upcoming project consultation sessions using your private SHA-256 booking token.",
 };
 
 export default function AppointmentsPage() {
@@ -40,10 +40,10 @@ export default function AppointmentsPage() {
               <span>Private Booking Registry</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Advisory Appointments
+              Project Appointments
             </h1>
             <p className="mt-2 text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
-              Enter your 64-character hex management token to access your session agenda, reschedule, or inspect booking status.
+              Enter your 64-character hex management token to access your consultation details, reschedule, or inspect booking status.
             </p>
           </div>
 

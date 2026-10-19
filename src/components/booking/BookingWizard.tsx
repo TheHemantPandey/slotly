@@ -52,11 +52,11 @@ interface ConfirmedBookingRecord {
 }
 
 const STEPS = [
-  { step: 1, label: "Select Track", subtitle: "Advisory Practice" },
+  { step: 1, label: "Select Service", subtitle: "Project Track" },
   { step: 2, label: "Choose Date", subtitle: "Select Day" },
-  { step: 3, label: "Time Slot", subtitle: "Locked Window" },
-  { step: 4, label: "Client Intake", subtitle: "Executive Brief" },
-  { step: 5, label: "Review & Lock", subtitle: "Verify & Persist" },
+  { step: 3, label: "Time Slot", subtitle: "Available Window" },
+  { step: 4, label: "Project Intake", subtitle: "Requirements" },
+  { step: 5, label: "Review & Lock", subtitle: "Confirm Booking" },
 ];
 
 function generateNextDays(count = 10): { date: string; dayLabel: string; dayNumber: string; weekday: string; isSunday: boolean }[] {

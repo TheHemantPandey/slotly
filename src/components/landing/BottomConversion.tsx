@@ -34,17 +34,17 @@ export function BottomConversion() {
           {/* Micro Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-indigo-400/30 bg-indigo-950/60 text-xs font-mono text-indigo-300 mb-6 shadow-sm">
             <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Instant Confirmation • No Double-Bookings</span>
+            <span>Open for Client Projects • Starting at ₹999</span>
           </div>
 
           {/* Headline */}
           <h2 className="mx-auto max-w-3xl text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-tight">
-            Ready to elevate your engineering and architecture?
+            Ready to build or upgrade your website?
           </h2>
 
           {/* Subhead */}
           <p className="mx-auto mt-5 max-w-2xl text-base sm:text-lg text-zinc-300 leading-relaxed font-sans">
-            Select a consulting practice track and secure your advisory window with zero double-bookings.
+            Choose from our 8 practical service packages with fixed transparent pricing or schedule a free discovery call to discuss your custom project.
           </p>
 
           {/* Dual CTAs with Shimmer & Spring Click Physics */}
@@ -55,7 +55,7 @@ export function BottomConversion() {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <Link
-                href="/book"
+                href="/services"
                 className="relative overflow-hidden inline-flex items-center gap-2.5 px-7 py-4 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 text-white text-sm font-mono font-medium tracking-wide hover:from-blue-500 hover:to-emerald-500 transition-all shadow-xl shadow-emerald-500/30 border border-emerald-400/40 group"
               >
                 {/* Continuous Diagonal Light Shimmer */}
@@ -74,7 +74,7 @@ export function BottomConversion() {
                   />
                 )}
                 <Calendar className="w-4 h-4 text-emerald-200 transition-transform group-hover:scale-110 relative z-10" />
-                <span className="relative z-10">Book Advisory Session</span>
+                <span className="relative z-10">Explore All 8 Services</span>
                 <ArrowRight className="w-4 h-4 text-white transition-transform group-hover:translate-x-1 relative z-10" />
               </Link>
             </motion.div>
@@ -85,22 +85,22 @@ export function BottomConversion() {
               transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
               <Link
-                href="/services"
+                href="/book"
                 className="inline-flex items-center gap-2 px-7 py-4 rounded-xl border border-white/20 bg-white/[0.04] text-zinc-200 text-sm font-mono tracking-wide hover:bg-white/[0.08] hover:text-white hover:border-white/30 transition-all backdrop-blur-sm"
               >
                 <Calendar className="w-4 h-4 text-zinc-400" />
-                <span>View All Services</span>
+                <span>Book Discovery Call</span>
               </Link>
             </motion.div>
           </div>
 
           {/* Mini Guarantee Footnote */}
           <div className="mt-8 pt-6 border-t border-white/[0.08] flex items-center justify-center gap-6 text-xs font-mono text-zinc-400">
-            <span>✓ Verified Asia/Kolkata Calendar</span>
+            <span>✓ Transparent Fixed Pricing</span>
             <span>•</span>
-            <span>✓ Encrypted Management Token</span>
+            <span>✓ Fast 2–7 Day Turnaround</span>
             <span>•</span>
-            <span>✓ Immediate Google Meet / Video Link</span>
+            <span>✓ 100% Code &amp; Asset Ownership</span>
           </div>
         </div>
       </div>
