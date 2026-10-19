@@ -15,28 +15,56 @@ export async function listActiveServices(): Promise<Service[]> {
 
 /**
  * Retrieve a specific service by its stable ID or unique slug.
- * Gracefully resolves legacy slugs via SLUG_ALIASES fallback.
+ * Gracefully resolves legacy slugs via SLUG_ALIASES fallback and reverse lookups.
  */
 export async function getServiceById(idOrSlug: string): Promise<Service | null> {
+  if (!idOrSlug) return null;
+  const clean = idOrSlug.trim();
+
+  // 1. Direct match by ID or slug
   const direct = await db.service.findFirst({
     where: {
-      OR: [{ id: idOrSlug }, { slug: idOrSlug }],
+      OR: [{ id: clean }, { slug: clean }],
       isActive: true,
     },
   });
   if (direct) return direct;
 
-  const aliasedSlug = SLUG_ALIASES[idOrSlug];
+  // 2. Direct alias mapping (legacy -> new)
+  const aliasedSlug = SLUG_ALIASES[clean];
   if (aliasedSlug) {
-    return db.service.findFirst({
+    const byAlias = await db.service.findFirst({
       where: {
         OR: [{ id: aliasedSlug }, { slug: aliasedSlug }],
         isActive: true,
       },
     });
+    if (byAlias) return byAlias;
   }
 
-  return null;
+  // 3. Reverse alias mapping (new -> legacy if DB not yet seeded)
+  for (const [legacyKey, newTarget] of Object.entries(SLUG_ALIASES)) {
+    if (newTarget === clean) {
+      const byLegacy = await db.service.findFirst({
+        where: {
+          OR: [{ id: legacyKey }, { slug: legacyKey }],
+          isActive: true,
+        },
+      });
+      if (byLegacy) return byLegacy;
+    }
+  }
+
+  // 4. Case-insensitive fallback
+  return db.service.findFirst({
+    where: {
+      OR: [
+        { id: { equals: clean, mode: "insensitive" } },
+        { slug: { equals: clean, mode: "insensitive" } },
+      ],
+      isActive: true,
+    },
+  });
 }
 
 /**

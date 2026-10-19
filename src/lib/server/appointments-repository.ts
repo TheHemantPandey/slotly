@@ -12,6 +12,7 @@ import {
   generateCustomerToken,
   hashCustomerToken,
 } from "./auth";
+import { getServiceById } from "./services-repository";
 
 export type AppointmentWithService = Prisma.AppointmentGetPayload<{
   include: { service: true };
@@ -265,10 +266,8 @@ export async function createPersistedAppointment(
       };
     }
 
-    // 3. Verify service existence and active status
-    const service = await tx.service.findUnique({
-      where: { id: validated.serviceId },
-    });
+    // 3. Verify service existence and active status (supporting id, slug, or alias)
+    const service = await getServiceById(validated.serviceId);
 
     if (!service || !service.isActive) {
       throw new ServiceInactiveError();
@@ -402,11 +401,9 @@ export async function computeAvailableSlots(
   date: string;
   slots: ComputedSlot[];
 }> {
-  const service = await db.service.findUnique({
-    where: { id: serviceId, isActive: true },
-  });
+  const service = await getServiceById(serviceId);
 
-  if (!service) {
+  if (!service || !service.isActive) {
     throw new ServiceInactiveError();
   }
 
