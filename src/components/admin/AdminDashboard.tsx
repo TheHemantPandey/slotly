@@ -64,14 +64,24 @@ export function AdminDashboard() {
   const shouldReduceMotion = useReducedMotion();
 
   // Sign-In Form State
-  const [emailInput, setEmailInput] = useState("");
+  const [emailInput, setEmailInput] = useState<string>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        return localStorage.getItem(STORAGE_SAVED_EMAIL_KEY) || "";
+      } catch {
+        return "";
+      }
+    }
+    return "";
+  });
   const [passwordInput, setPasswordInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [sessionNotice, setSessionNotice] = useState<string | null>(null);
 
-  const lastActivityRef = useRef<number>(Date.now());
+  const [initialTimestamp] = useState(() => Date.now());
+  const lastActivityRef = useRef<number>(initialTimestamp);
   const passwordInputRef = useRef<HTMLInputElement>(null);
 
   // Dashboard Data State
@@ -92,18 +102,6 @@ export function AdminDashboard() {
   const [isAdminCancelling, setIsAdminCancelling] = useState(false);
   const [adminCancelError, setAdminCancelError] = useState<string | null>(null);
   const [actionSuccessMsg, setActionSuccessMsg] = useState<string | null>(null);
-
-  // Load saved admin email from localStorage
-  useEffect(() => {
-    try {
-      const savedEmail = localStorage.getItem(STORAGE_SAVED_EMAIL_KEY);
-      if (savedEmail) {
-        setEmailInput(savedEmail);
-      }
-    } catch {
-      // non-blocking
-    }
-  }, []);
 
   // 1. Check current admin session on mount (with 10-minute away check)
   useEffect(() => {

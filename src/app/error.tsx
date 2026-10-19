@@ -11,7 +11,6 @@ import {
   Sparkles,
   CheckCircle2,
   Terminal,
-  AlertTriangle,
 } from "lucide-react";
 
 export default function ErrorBoundary({

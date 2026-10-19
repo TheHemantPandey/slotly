@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
 import { BookingWizard } from "@/components/booking/BookingWizard";
-import { ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Book a Project Consultation | Slotly",
@@ -32,18 +31,18 @@ export default function BookPage() {
       <Header />
 
       <main className="flex-1 relative z-10 py-12 md:py-20">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           {/* Header Title */}
-          <div className="max-w-3xl mb-12 text-center sm:text-left mx-auto sm:mx-0">
+          <div className="max-w-3xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-xs font-mono text-emerald-300 mb-4 shadow-xs">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Project Consultation &amp; Discovery</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>DIRECT BOOKING • 1-MINUTE EXPRESS INTAKE</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Schedule your project discussion.
+              Schedule Your Web Development &amp; Tech Advisory Session
             </h1>
             <p className="mt-3 text-sm sm:text-base text-zinc-400 leading-relaxed font-sans">
-              Select one of our 8 service tracks, choose an available date and time slot, and share your project requirements. Connect directly with Hemant Pandey with instant confirmation.
+              Select a practice, choose an open slot, and lock in your session instantly.
             </p>
           </div>
 
