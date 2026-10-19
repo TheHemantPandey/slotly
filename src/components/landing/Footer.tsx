@@ -135,47 +135,47 @@ export function Footer() {
             <ul className="space-y-2.5 text-xs font-sans">
               <li>
                 <Link
-                  href="/services/landing-page-development"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Layers className="w-3.5 h-3.5 text-blue-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Landing Pages (₹2,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/business-website-development"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Code2 className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Business Websites (₹6,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/ecommerce-development"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>E-commerce Stores (₹14,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/booking-website"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Calendar className="w-3.5 h-3.5 text-amber-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Booking Websites (₹9,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/custom-web-applications"
+                  href="/services/custom-web-app"
                   className="inline-flex items-center gap-2 hover:text-white transition-colors group"
                 >
                   <Cpu className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Custom Web Apps (₹14,999)</span>
+                  <span>Custom Web Apps (From ₹14,999)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/landing-page"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Layers className="w-3.5 h-3.5 text-blue-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Landing Pages (From ₹4,799)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/ecommerce-store"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>E-Commerce Stores (From ₹9,599)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/website-redesign"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Website Redesign (From ₹3,999)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/ai-integration"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-teal-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>AI Tooling &amp; Bots (From ₹7,999)</span>
                 </Link>
               </li>
               <li>

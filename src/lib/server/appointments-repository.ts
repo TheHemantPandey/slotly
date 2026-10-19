@@ -461,9 +461,9 @@ export async function computeAvailableSlots(
     },
   });
 
-  // Generate discrete slot intervals with a 15-minute buffer
+  // Generate discrete slot intervals (20 mins for fast enquiry calls)
   const slotDurationMs = service.durationMinutes * 60 * 1000;
-  const slotStepMs = (service.durationMinutes <= 30 ? 30 : 45) * 60 * 1000;
+  const slotStepMs = (service.durationMinutes <= 20 ? 20 : service.durationMinutes <= 30 ? 30 : 45) * 60 * 1000;
 
   const slots: ComputedSlot[] = [];
   let currentSlotStartMs = dayStartUtcMs;

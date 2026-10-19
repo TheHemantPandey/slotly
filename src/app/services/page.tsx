@@ -41,9 +41,9 @@ export default function ServicesPage() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           {/* Header Banner */}
           <div className="max-w-3xl mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-indigo-500/30 bg-indigo-950/40 text-xs font-mono text-indigo-300 mb-4 shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Direct Freelance Engineering • Transparent INR Pricing</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-950/40 text-xs font-mono text-emerald-300 mb-4 shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>15–20 MIN DISCOVERY CALLS • 20% LIMITED MARKET DISCOUNT</span>
             </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-tight">
               Websites &amp; web apps built for{" "}
@@ -52,22 +52,22 @@ export default function ServicesPage() {
               </span>
             </h1>
             <p className="mt-4 text-base sm:text-lg text-zinc-300 leading-relaxed font-sans">
-              I help individuals, small businesses, startups, and local shops build, modernize, and maintain high-performance websites and web applications. Every project features transparent starting prices, direct developer communication, and production-grade code.
+              I help individuals, small businesses, startups, and local shops build, modernize, and maintain high-performance websites and web applications. Every project features transparent &quot;starts from&quot; pricing with a 20% market discount, direct developer communication, and fast discovery calls.
             </p>
 
             {/* Micro Guarantees Strip */}
             <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-mono text-zinc-400">
               <div className="flex items-center gap-1.5">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                <span>Transparent &quot;Starting at&quot; Pricing</span>
+                <span>Starts From Pricing with 20% OFF</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Code2 className="w-4 h-4 text-blue-400" />
-                <span>Zero Outsourced Agency Bloat</span>
+                <span>15–20 Min Low-Friction Calls</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-violet-400" />
-                <span>Mobile-First Responsive Standard</span>
+                <span>Zero Outsourced Agency Bloat</span>
               </div>
             </div>
           </div>

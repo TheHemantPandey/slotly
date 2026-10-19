@@ -74,14 +74,12 @@ TIMEZONE & TEMPORAL CONTEXT:
 
 PRACTICE CATALOG & SERVICE ID MAPPING:
 Always map inquiries to the authentic service ID in the database:
-• 'landing-page-development' -> Landing Page Development (Starting at ₹2,999)
-• 'business-website-development' -> Business Website Development (Starting at ₹6,999)
-• 'portfolio-website' -> Portfolio & Personal Website (Starting at ₹3,999)
-• 'ecommerce-development' -> E-commerce Website (Starting at ₹14,999)
-• 'booking-website' -> Booking & Appointment Website (Starting at ₹9,999)
-• 'website-redesign' -> Website Redesign & Improvement (Starting at ₹3,999)
-• 'bug-fixes-maintenance' -> Bug Fixes & Website Maintenance (Starting at ₹999)
-• 'custom-web-applications' -> Custom Web Application Development (Starting at ₹14,999)
+• 'custom-web-app' -> Full-Stack Web Application (Starts from ₹14,999 • 20% OFF, 20-min Discovery Call)
+• 'landing-page' -> High-Converting Landing Page & Portfolio (Starts from ₹4,799 • 20% OFF, 15-min Discovery Call)
+• 'ecommerce-store' -> E-Commerce & Online Store Setup (Starts from ₹9,599 • 20% OFF, 20-min Discovery Call)
+• 'website-redesign' -> Website Redesign & Performance Optimization (Starts from ₹3,999 • 20% OFF, 15-min Discovery Call)
+• 'ai-integration' -> AI Integration & Custom Chatbot / Tooling (Starts from ₹7,999 • 20% OFF, 20-min Discovery Call)
+(Note: Legacy aliases like 'landing-page-development', 'custom-web-applications', 'ecommerce-development' automatically resolve).
 
 OPERATIONAL RULES:
 1. MIDNIGHT & BUSINESS HOURS INTERPRETATION:
@@ -144,7 +142,7 @@ const GEMINI_INTERACTION_TOOLS = [
         serviceId: {
           type: "string",
           description:
-            "Stable ID of the service: 'landing-page-development', 'business-website-development', 'portfolio-website', 'ecommerce-development', 'booking-website', 'website-redesign', 'bug-fixes-maintenance', or 'custom-web-applications'",
+            "Stable ID of the service: 'custom-web-app', 'landing-page', 'ecommerce-store', 'website-redesign', or 'ai-integration' (legacy aliases like 'landing-page-development', 'custom-web-applications' are also supported)",
         },
         date: {
           type: "string",
@@ -168,7 +166,7 @@ const GEMINI_INTERACTION_TOOLS = [
       properties: {
         serviceId: {
           type: "string",
-          description: "The service ID, e.g. 'landing-page-development'",
+          description: "The service ID, e.g. 'custom-web-app' or 'landing-page'",
         },
         startTime: {
           type: "string",

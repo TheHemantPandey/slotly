@@ -27,8 +27,6 @@ import {
   Layers,
   Code2,
   RefreshCw,
-  Zap,
-  Wrench,
   ChevronDown,
   ChevronUp,
   MessageSquare,
@@ -111,24 +109,29 @@ function generateUpcomingBusinessDays(count = 10): CalendarDayItem[] {
 
 function getServiceIcon(id: string) {
   switch (id) {
-    case "landing-page-development":
-      return <Laptop className="w-4 h-4 text-emerald-400 shrink-0" />;
+    case "custom-web-app":
+    case "custom-web-applications":
+    case "booking-website":
     case "business-website-development":
-      return <Globe className="w-4 h-4 text-blue-400 shrink-0" />;
+      return <Code2 className="w-4 h-4 text-indigo-400 shrink-0" />;
+    case "landing-page":
+    case "landing-page-development":
+    case "portfolio-website":
+      return <Laptop className="w-4 h-4 text-emerald-400 shrink-0" />;
+    case "ecommerce-store":
     case "ecommerce-development":
       return <Layers className="w-4 h-4 text-purple-400 shrink-0" />;
-    case "web-application-development":
-      return <Code2 className="w-4 h-4 text-indigo-400 shrink-0" />;
+    case "website-redesign":
     case "website-redesign-modernization":
-      return <RefreshCw className="w-4 h-4 text-amber-400 shrink-0" />;
-    case "website-maintenance-support":
-      return <ShieldCheck className="w-4 h-4 text-teal-400 shrink-0" />;
     case "speed-seo-optimization":
-      return <Zap className="w-4 h-4 text-yellow-400 shrink-0" />;
+    case "bug-fixes-maintenance":
     case "custom-feature-bug-fix":
-      return <Wrench className="w-4 h-4 text-rose-400 shrink-0" />;
+    case "website-maintenance-support":
+      return <RefreshCw className="w-4 h-4 text-amber-400 shrink-0" />;
+    case "ai-integration":
+      return <Sparkles className="w-4 h-4 text-teal-400 shrink-0" />;
     default:
-      return <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />;
+      return <Globe className="w-4 h-4 text-blue-400 shrink-0" />;
   }
 }
 
@@ -149,8 +152,8 @@ function downloadIcsFile(booking: ConfirmedBookingRecord) {
     `DTSTAMP:${new Date().toISOString().replace(/-|:|\.\d\d\d/g, "")}`,
     `DTSTART:${startIsoClean}`,
     `DTEND:${endIsoClean}`,
-    `SUMMARY:${booking.serviceTitle} - Slotly Consultation`,
-    `DESCRIPTION:Web development consultation with Hemant Pandey.\\nBooking Reference: #${booking.id.slice(-6).toUpperCase()}\\nManage session: ${
+    `SUMMARY:${booking.serviceTitle} - Slotly Discovery Call`,
+    `DESCRIPTION:Web development discovery session with Hemant Pandey.\\nBooking Reference: #${booking.id.slice(-6).toUpperCase()}\\nManage session: ${
       typeof window !== "undefined" ? window.location.origin : ""
     }${booking.managementUrl}`,
     "LOCATION:Google Meet / Online",
@@ -170,16 +173,23 @@ function downloadIcsFile(booking: ConfirmedBookingRecord) {
   URL.revokeObjectURL(url);
 }
 
-export function BookingWizard() {
+interface BookingWizardProps {
+  initialServiceId?: string;
+}
+
+export function BookingWizard({ initialServiceId }: BookingWizardProps = {}) {
   const searchParams = useSearchParams();
-  const preselectedServiceId = searchParams?.get("service");
+  const rawServiceParam = initialServiceId || searchParams?.get("service");
 
   // Services Catalog
   const [services, setServices] = useState<ConsultingService[]>(DEMO_SERVICES);
   const [selectedService, setSelectedService] = useState<ConsultingService>(() => {
-    if (preselectedServiceId) {
+    if (rawServiceParam) {
       const found = DEMO_SERVICES.find(
-        (s) => s.id === preselectedServiceId || (s as { slug?: string }).slug === preselectedServiceId
+        (s) =>
+          s.id === rawServiceParam ||
+          (s as { slug?: string }).slug === rawServiceParam ||
+          (s as { id?: string }).id === rawServiceParam.toLowerCase()
       );
       if (found) return found;
     }
@@ -218,10 +228,10 @@ export function BookingWizard() {
           const data = await res.json();
           if (data.success && Array.isArray(data.services) && data.services.length > 0) {
             setServices(data.services);
-            if (preselectedServiceId) {
+            if (rawServiceParam) {
               const matched = data.services.find(
                 (s: ConsultingService & { slug?: string }) =>
-                  s.id === preselectedServiceId || s.slug === preselectedServiceId
+                  s.id === rawServiceParam || s.slug === rawServiceParam
               );
               if (matched) setSelectedService(matched);
             }
@@ -232,7 +242,7 @@ export function BookingWizard() {
       }
     }
     loadServices();
-  }, [preselectedServiceId]);
+  }, [rawServiceParam]);
 
   const [reloadKey, setReloadKey] = useState(0);
   const refreshAvailability = useCallback(() => {
@@ -608,57 +618,79 @@ export function BookingWizard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {services.map((svc) => {
                 const isSelected = selectedService.id === svc.id;
+                const originalPrice = svc.originalFeeINR || Math.round(svc.feeINR * 1.25);
                 return (
-                  <button
+                  <div
                     key={svc.id}
-                    type="button"
                     onClick={() => {
                       setSelectedService(svc);
                       setConflictError(null);
                     }}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden group ${
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer relative overflow-hidden group flex flex-col justify-between ${
                       isSelected
                         ? "border-emerald-500/80 bg-emerald-950/20 shadow-lg shadow-emerald-950/40 ring-1 ring-emerald-500/50"
                         : "border-white/10 bg-[#070b16]/80 hover:border-white/20 hover:bg-white/[0.03]"
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div
-                          className={`p-1.5 rounded-lg border shrink-0 ${
-                            isSelected
-                              ? "bg-emerald-500/20 border-emerald-500/40"
-                              : "bg-white/[0.04] border-white/10 group-hover:border-white/20"
-                          }`}
-                        >
-                          {getServiceIcon(svc.id)}
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-1.5">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div
+                            className={`p-1.5 rounded-lg border shrink-0 ${
+                              isSelected
+                                ? "bg-emerald-500/20 border-emerald-500/40"
+                                : "bg-white/[0.04] border-white/10 group-hover:border-white/20"
+                            }`}
+                          >
+                            {getServiceIcon(svc.id)}
+                          </div>
+                          <span
+                            className={`text-xs font-semibold truncate ${
+                              isSelected ? "text-white" : "text-zinc-200"
+                            }`}
+                          >
+                            {svc.title}
+                          </span>
                         </div>
-                        <span
-                          className={`text-xs font-semibold truncate ${
-                            isSelected ? "text-white" : "text-zinc-200"
-                          }`}
-                        >
-                          {svc.title}
-                        </span>
+
+                        {isSelected && (
+                          <span className="h-4 w-4 rounded-full bg-emerald-400 text-zinc-950 flex items-center justify-center shrink-0">
+                            <Check className="w-2.5 h-2.5 stroke-[3]" />
+                          </span>
+                        )}
                       </div>
 
-                      {isSelected && (
-                        <span className="h-4 w-4 rounded-full bg-emerald-400 text-zinc-950 flex items-center justify-center shrink-0">
-                          <Check className="w-2.5 h-2.5 stroke-[3]" />
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-zinc-400 text-[10px] font-mono flex items-center gap-1">
+                          <Clock className="w-3 h-3 text-zinc-500" />
+                          {svc.durationMinutes} min enquiry
                         </span>
-                      )}
+                        <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                          20% OFF
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex items-center justify-between font-mono text-xs pt-1 border-t border-white/[0.06]">
-                      <span className="text-zinc-400 text-[11px] flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-zinc-500" />
-                        {svc.durationMinutes} min
-                      </span>
-                      <span className="text-emerald-400 font-bold text-xs">
-                        ₹{svc.feeINR.toLocaleString("en-IN")}
-                      </span>
+                    <div className="flex items-center justify-between font-mono text-xs pt-2 border-t border-white/[0.06] mt-1">
+                      <div>
+                        <div className="text-[10px] text-zinc-500 line-through">
+                          ₹{originalPrice.toLocaleString("en-IN")}
+                        </div>
+                        <div className="text-emerald-400 font-bold text-xs">
+                          Starts from ₹{svc.feeINR.toLocaleString("en-IN")}
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/services/${svc.slug}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white px-2 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
+                      >
+                        <span>Know More</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
-                  </button>
+                  </div>
                 );
               })}
             </div>
@@ -896,18 +928,25 @@ export function BookingWizard() {
             <div className="p-4 rounded-2xl bg-[#04060e] border border-white/10 space-y-3 mb-6">
               <div className="flex justify-between items-start gap-2 border-b border-white/[0.06] pb-3">
                 <div>
-                  <span className="text-xs text-zinc-400 block font-sans">Service Practice</span>
+                  <span className="text-[11px] font-mono uppercase text-emerald-400 font-semibold block">
+                    Introductory Project Enquiry ({selectedService.durationMinutes} Mins)
+                  </span>
                   <span className="text-sm font-semibold text-white block mt-0.5">
                     {selectedService.title}
                   </span>
                   <span className="text-[11px] font-mono text-zinc-400">
-                    {selectedService.durationMinutes} min consultation
+                    Direct call with Hemant Pandey
                   </span>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs text-zinc-400 block font-sans">Starting Fee</span>
-                  <span className="text-base font-bold font-mono text-emerald-400 block mt-0.5">
-                    ₹{selectedService.feeINR.toLocaleString("en-IN")}
+                  <span className="text-[10px] font-mono text-zinc-500 block line-through">
+                    Was ₹{(selectedService.originalFeeINR || Math.round(selectedService.feeINR * 1.25)).toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-sm sm:text-base font-bold font-mono text-emerald-400 block mt-0.5">
+                    Starts from ₹{selectedService.feeINR.toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20 inline-block mt-0.5">
+                    20% Market Discount Applied
                   </span>
                 </div>
               </div>
@@ -1039,7 +1078,7 @@ export function BookingWizard() {
                     </>
                   ) : (
                     <>
-                      <span>Confirm &amp; Book Session (₹{selectedService.feeINR.toLocaleString("en-IN")})</span>
+                      <span>Confirm Enquiry Call (Free / Discovery) →</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { FREELANCE_SERVICES } from "@/lib/services-catalog";
+import { FREELANCE_SERVICES, resolveServiceSlug } from "@/lib/services-catalog";
 import {
   Send,
   CheckCircle2,
@@ -35,9 +35,9 @@ export function QuoteContactForm({
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedServiceId, setSelectedServiceId] = useState(
-    initialServiceSlug || "landing-page-development"
-  );
+  const [selectedServiceId, setSelectedServiceId] = useState(() => {
+    return initialServiceSlug ? resolveServiceSlug(initialServiceSlug) : "custom-web-app";
+  });
   const [budget, setBudget] = useState("₹5,000 – ₹10,000");
   const [requirements, setRequirements] = useState("");
 

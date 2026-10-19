@@ -424,7 +424,7 @@ export function ProductShowcase() {
                 <div className="text-[11px] text-zinc-400 space-y-1">
                   <div className="flex justify-between">
                     <span className="text-zinc-500">Lock Target:</span>
-                    <span className="text-zinc-300">slotly_booking_landing-page-development</span>
+                    <span className="text-zinc-300">slotly_booking_landing-page</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-zinc-500">Selected Slot:</span>
@@ -449,7 +449,7 @@ export function ProductShowcase() {
                 className="w-full sm:w-auto"
               >
                 <Link
-                  href="/book?service=landing-page-development"
+                  href="/book?service=landing-page"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-100 text-xs font-mono font-semibold transition-all shadow-md group"
                 >
                   <span>Book Project Discovery Call</span>

@@ -9,14 +9,11 @@ import { Check, ArrowRight, Clock, Zap, ShieldCheck } from "lucide-react";
 
 // Curated order to highlight primary freelance web services
 const ORDERED_SERVICE_IDS = [
-  "landing-page-development",
-  "business-website-development",
-  "portfolio-website",
-  "ecommerce-development",
-  "booking-website",
+  "custom-web-app",
+  "landing-page",
+  "ecommerce-store",
   "website-redesign",
-  "bug-fixes-maintenance",
-  "custom-web-applications",
+  "ai-integration",
 ];
 
 // High-fidelity styling tokens per category
@@ -32,15 +29,6 @@ const CATEGORY_STYLES: Record<
     pillBg: string;
   }
 > = {
-  Websites: {
-    border: "border-sky-500/30",
-    hoverBorder: "hover:border-sky-400/60",
-    badgeBg: "bg-sky-500/15 border-sky-500/30",
-    badgeText: "text-sky-300",
-    glow: "from-sky-600/15 via-sky-950/20 to-transparent",
-    priceColor: "text-sky-200",
-    pillBg: "bg-sky-500/10 text-sky-300 border-sky-500/20",
-  },
   "Web Applications": {
     border: "border-indigo-500/30",
     hoverBorder: "hover:border-indigo-400/60",
@@ -50,14 +38,14 @@ const CATEGORY_STYLES: Record<
     priceColor: "text-indigo-200",
     pillBg: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
   },
-  "Personal & Brand": {
-    border: "border-violet-500/30",
-    hoverBorder: "hover:border-violet-400/60",
-    badgeBg: "bg-violet-500/15 border-violet-500/30",
-    badgeText: "text-violet-300",
-    glow: "from-violet-600/15 via-violet-950/20 to-transparent",
-    priceColor: "text-violet-200",
-    pillBg: "bg-violet-500/10 text-violet-300 border-violet-500/20",
+  Websites: {
+    border: "border-sky-500/30",
+    hoverBorder: "hover:border-sky-400/60",
+    badgeBg: "bg-sky-500/15 border-sky-500/30",
+    badgeText: "text-sky-300",
+    glow: "from-sky-600/15 via-sky-950/20 to-transparent",
+    priceColor: "text-sky-200",
+    pillBg: "bg-sky-500/10 text-sky-300 border-sky-500/20",
   },
   "E-commerce": {
     border: "border-emerald-500/30",
@@ -77,14 +65,14 @@ const CATEGORY_STYLES: Record<
     priceColor: "text-amber-200",
     pillBg: "bg-amber-500/10 text-amber-300 border-amber-500/20",
   },
-  "Maintenance & Support": {
-    border: "border-cyan-500/30",
-    hoverBorder: "hover:border-cyan-400/60",
-    badgeBg: "bg-cyan-500/15 border-cyan-500/30",
-    badgeText: "text-cyan-300",
-    glow: "from-cyan-600/15 via-cyan-950/20 to-transparent",
-    priceColor: "text-cyan-200",
-    pillBg: "bg-cyan-500/10 text-cyan-300 border-cyan-500/20",
+  "AI & Automation": {
+    border: "border-teal-500/30",
+    hoverBorder: "hover:border-teal-400/60",
+    badgeBg: "bg-teal-500/15 border-teal-500/30",
+    badgeText: "text-teal-300",
+    glow: "from-teal-600/15 via-teal-950/20 to-transparent",
+    priceColor: "text-teal-200",
+    pillBg: "bg-teal-500/10 text-teal-300 border-teal-500/20",
   },
 };
 
@@ -101,7 +89,8 @@ function PracticeCard({ service }: { service: ConsultingService }) {
     });
   };
 
-  const style = CATEGORY_STYLES[service.category] || CATEGORY_STYLES["Websites"];
+  const style = CATEGORY_STYLES[service.category] || CATEGORY_STYLES["Web Applications"];
+  const originalPrice = service.originalFeeINR || Math.round(service.feeINR * 1.25);
 
   return (
     <motion.div
@@ -137,9 +126,9 @@ function PracticeCard({ service }: { service: ConsultingService }) {
             </span>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 text-xs font-mono text-zinc-300 px-2.5 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
-            <Clock className="w-3 h-3 text-zinc-400" />
-            <span>Fast Turnaround</span>
+          <div className="inline-flex items-center gap-1.5 text-xs font-mono text-emerald-300 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            <Clock className="w-3 h-3 text-emerald-400" />
+            <span>{service.durationMinutes}-Min Enquiry Call</span>
           </div>
         </div>
 
@@ -157,25 +146,30 @@ function PracticeCard({ service }: { service: ConsultingService }) {
           </motion.div>
         </div>
 
-        <p className="text-xs text-zinc-400 leading-relaxed mb-6 font-sans line-clamp-2">
+        <p className="text-xs text-zinc-400 leading-relaxed mb-5 font-sans line-clamp-2">
           {service.tagline}
         </p>
 
-        {/* Price Plate */}
-        <div className="flex items-baseline gap-2 pb-5 border-b border-white/[0.08] mb-5">
-          <div className="px-3.5 py-1.5 rounded-xl bg-[#04060e]/90 border border-white/10 shadow-inner flex items-baseline gap-1.5">
-            <span className="text-xs font-mono text-zinc-400">Starting at</span>
-            <span className={`text-2xl sm:text-3xl font-mono font-bold ${style.priceColor}`}>
-              ₹{service.feeINR.toLocaleString("en-IN")}
-            </span>
-            <span className="text-[11px] font-mono text-zinc-500">INR</span>
-          </div>
+        {/* Price Plate: Starts from ₹X,XXX with strikethrough original and 20% OFF */}
+        <div className="pb-5 border-b border-white/[0.08] mb-5">
+          <div className="p-3.5 rounded-xl bg-[#04060e]/90 border border-white/10 shadow-inner flex items-baseline justify-between gap-2">
+            <div>
+              <div className="text-[10px] font-mono text-zinc-500 line-through">
+                Was ₹{originalPrice.toLocaleString("en-IN")}
+              </div>
+              <div className="flex items-baseline gap-1.5">
+                <span className="text-xs font-mono text-zinc-400">Starts from</span>
+                <span className={`text-2xl sm:text-3xl font-mono font-bold ${style.priceColor}`}>
+                  ₹{service.feeINR.toLocaleString("en-IN")}
+                </span>
+                <span className="text-[11px] font-mono text-zinc-500">INR</span>
+              </div>
+            </div>
 
-          {service.popular && (
-            <span className="ml-auto text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold shadow-xs">
-              Popular
+            <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold shrink-0">
+              20% OFF
             </span>
-          )}
+          </div>
         </div>
 
         {/* 3 Clean Deliverables */}
@@ -194,22 +188,22 @@ function PracticeCard({ service }: { service: ConsultingService }) {
         </div>
       </div>
 
-      {/* Two Action Buttons */}
+      {/* Two Action Buttons: Know More & Book Call */}
       <div className="pt-4 border-t border-white/[0.08] relative z-10 grid grid-cols-2 gap-2.5">
         <Link
           href={`/services/${service.slug}`}
-          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl border border-white/15 bg-white/[0.04] text-white text-xs font-mono font-medium hover:bg-white/[0.08] transition-all text-center"
+          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl border border-white/15 bg-white/[0.04] text-white text-xs font-mono font-medium hover:bg-white/[0.08] hover:border-white/30 transition-all text-center"
         >
-          <span>View Details</span>
+          <span>Know More</span>
           <ArrowRight className="w-3 h-3 text-zinc-400" />
         </Link>
 
-        <a
-          href={`/services/${service.slug}#quote`}
-          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-white text-zinc-950 text-xs font-mono font-semibold tracking-wide hover:bg-zinc-100 transition-all shadow-md text-center"
+        <Link
+          href={`/book?service=${service.slug}`}
+          className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-zinc-950 text-xs font-mono font-bold tracking-wide transition-all shadow-md text-center"
         >
-          <span>Get a Quote</span>
-        </a>
+          <span>Book Call</span>
+        </Link>
       </div>
     </motion.div>
   );

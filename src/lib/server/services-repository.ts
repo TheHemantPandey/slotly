@@ -1,6 +1,7 @@
 import "server-only";
 import { db } from "@/lib/db";
 import { Service, AvailabilityRule } from "@prisma/client";
+import { SLUG_ALIASES } from "@/lib/services-catalog";
 
 /**
  * List all currently active consulting services from PostgreSQL.
@@ -14,14 +15,28 @@ export async function listActiveServices(): Promise<Service[]> {
 
 /**
  * Retrieve a specific service by its stable ID or unique slug.
+ * Gracefully resolves legacy slugs via SLUG_ALIASES fallback.
  */
 export async function getServiceById(idOrSlug: string): Promise<Service | null> {
-  return db.service.findFirst({
+  const direct = await db.service.findFirst({
     where: {
       OR: [{ id: idOrSlug }, { slug: idOrSlug }],
       isActive: true,
     },
   });
+  if (direct) return direct;
+
+  const aliasedSlug = SLUG_ALIASES[idOrSlug];
+  if (aliasedSlug) {
+    return db.service.findFirst({
+      where: {
+        OR: [{ id: aliasedSlug }, { slug: aliasedSlug }],
+        isActive: true,
+      },
+    });
+  }
+
+  return null;
 }
 
 /**

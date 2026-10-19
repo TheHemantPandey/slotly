@@ -4,11 +4,12 @@
  */
 
 export type ServiceCategory =
-  | "Websites"
-  | "Personal & Brand"
-  | "E-commerce"
   | "Web Applications"
+  | "Websites"
+  | "E-commerce"
   | "Design & Optimization"
+  | "AI & Automation"
+  | "Personal & Brand"
   | "Maintenance & Support";
 
 export interface ConsultingService {
@@ -19,6 +20,8 @@ export interface ConsultingService {
   description: string;
   durationMinutes: number;
   feeINR: number;
+  originalFeeINR?: number;
+  discountPercent?: number;
   category: ServiceCategory;
   deliverables: readonly string[];
   idealFor: string;
@@ -36,8 +39,15 @@ export interface ServiceFAQ {
   answer: string;
 }
 
+export interface ServiceBeforeAfter {
+  before: string;
+  after: string;
+}
+
 export interface ServiceDetail extends ConsultingService {
   startingPriceINR: number;
+  originalPriceINR?: number;
+  discountPercent?: number;
   whoIsItFor: string[];
   problemsSolved: string[];
   includedDeliverables: string[];
@@ -47,6 +57,8 @@ export interface ServiceDetail extends ConsultingService {
   estimatedDelivery: string;
   faqs: ServiceFAQ[];
   relatedServiceSlugs: string[];
+  techStack?: string[];
+  beforeAfter?: ServiceBeforeAfter[];
 }
 
 export interface QuoteRequest {

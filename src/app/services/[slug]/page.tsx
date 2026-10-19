@@ -5,6 +5,7 @@ import {
   getServiceBySlug,
   getAllServiceSlugs,
   getRelatedServices,
+  SLUG_ALIASES,
 } from "@/lib/services-catalog";
 import { Header } from "@/components/landing/Header";
 import { Footer } from "@/components/landing/Footer";
@@ -17,7 +18,9 @@ interface ServicePageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllServiceSlugs().map((slug) => ({
+  const primarySlugs = getAllServiceSlugs();
+  const aliasSlugs = Object.keys(SLUG_ALIASES);
+  return Array.from(new Set([...primarySlugs, ...aliasSlugs])).map((slug) => ({
     slug,
   }));
 }

@@ -18,22 +18,22 @@ import {
 
 const RECOMMENDED_SERVICES = [
   {
-    title: "Landing Page Development",
-    price: "₹2,999",
-    href: "/services/landing-page-development",
-    desc: "Single-page website built for conversions and product launches.",
+    title: "Landing Page & Portfolio",
+    price: "Starts ₹4,799",
+    href: "/services/landing-page",
+    desc: "Fast, conversion-focused Next.js landing page with 20% market discount.",
   },
   {
-    title: "Business Website Development",
-    price: "₹6,999",
-    href: "/services/business-website-development",
-    desc: "Up to 5 pages for shops, consultants, clinics, and businesses.",
+    title: "Full-Stack Web App",
+    price: "Starts ₹14,999",
+    href: "/services/custom-web-app",
+    desc: "Custom SaaS, client portals, and secure database systems.",
   },
   {
-    title: "E-commerce Website",
-    price: "₹14,999",
-    href: "/services/ecommerce-development",
-    desc: "Online storefront with product catalog and online payments.",
+    title: "E-Commerce & Store",
+    price: "Starts ₹9,599",
+    href: "/services/ecommerce-store",
+    desc: "Online storefront with product catalog and online payment integration.",
   },
 ];
 
@@ -176,7 +176,7 @@ export default function NotFound() {
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-white/15 bg-white/[0.04] text-zinc-200 text-xs font-mono tracking-wide hover:bg-white/[0.08] hover:text-white transition-all backdrop-blur-sm"
               >
                 <Sparkles className="w-3.5 h-3.5 text-indigo-300" />
-                <span>Explore 8 Services</span>
+                <span>Explore All Services</span>
               </Link>
 
               <Link
