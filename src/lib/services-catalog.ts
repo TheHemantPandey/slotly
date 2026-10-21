@@ -1295,6 +1295,15 @@ export const SLUG_ALIASES: Record<string, string> = {
   // Legacy aliases for Website Maintenance & Technical Support
   "bug-fixes-maintenance": "website-maintenance-support",
   "website-maintenance": "website-maintenance-support",
+
+  // Legacy consultation aliases
+  "software-architecture": "custom-web-apps-dashboards",
+  "software-architecture-consultation": "custom-web-apps-dashboards",
+  "web-development": "custom-web-apps-dashboards",
+  "web-development-consultation": "custom-web-apps-dashboards",
+  "product-strategy": "custom-web-apps-dashboards",
+  "product-strategy-session": "custom-web-apps-dashboards",
+  "ui-ux-design-review": "business-websites-landing-pages",
 };
 
 export function resolveServiceSlug(rawSlug: string): string {

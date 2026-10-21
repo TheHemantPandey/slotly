@@ -14,7 +14,8 @@
     "admin:hash": "tsx scripts/generate-admin-hash.ts",
     "postinstall": "prisma generate",
     "test:security": "node --conditions=react-server --import tsx scripts/test-security.ts",
-    "test:assistant": "node --conditions=react-server --import tsx scripts/test-assistant.ts"
+    "test:assistant": "node --conditions=react-server --import tsx scripts/test-assistant.ts",
+    "test:concurrency": "node --conditions=react-server --import tsx scripts/test-concurrency.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

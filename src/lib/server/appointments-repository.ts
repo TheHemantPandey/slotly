@@ -244,8 +244,8 @@ export async function createPersistedAppointment(
   // Execute inside transaction with advisory xact lock for concurrency safety
   const created = await db.$transaction(
     async (tx) => {
-    // 1. Acquire transaction-scoped PostgreSQL advisory lock keyed to this service
-    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext('slotly_booking_' || ${validated.serviceId}))`;
+    // 1. Acquire transaction-scoped PostgreSQL advisory lock keyed to calendar booking
+    await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext('slotly_booking_calendar'))`;
 
     // 2. Durable PostgreSQL-backed idempotency check:
     // If an appointment with this exact cancellationTokenHash already exists, return it
@@ -276,10 +276,9 @@ export async function createPersistedAppointment(
     // 3. Compute exact end time based on service duration
     const endTime = new Date(startTime.getTime() + service.durationMinutes * 60 * 1000);
 
-    // 4. Concurrency-safe overlap check: active bookings cannot overlap
+    // 4. Concurrency-safe overlap check: active bookings cannot overlap on this calendar
     const existingConflict = await tx.appointment.findFirst({
       where: {
-        serviceId: service.id,
         status: { in: ["CONFIRMED", "PENDING_INTAKE"] },
         startTime: { lt: endTime },
         endTime: { gt: startTime },
@@ -442,10 +441,9 @@ export async function computeAvailableSlots(
   const dayEndUtcMs =
     Date.UTC(year, month - 1, day, endHour, endMin) - istOffsetMinutes * 60 * 1000;
 
-  // Query existing active bookings for this service on this day
+  // Query existing active bookings across all services for this day window
   const existingBookings = await db.appointment.findMany({
     where: {
-      serviceId: service.id,
       status: { in: ["CONFIRMED", "PENDING_INTAKE"] },
       startTime: { gte: new Date(dayStartUtcMs - 2 * 3600 * 1000) },
       endTime: { lte: new Date(dayEndUtcMs + 2 * 3600 * 1000) },
