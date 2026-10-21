@@ -30,6 +30,8 @@ async function runConcurrencyTests() {
   }
 
   try {
+    // Pre-warm database pooler connection
+    await db.$executeRaw`SELECT 1`;
     // -------------------------------------------------------------------------
     // 1. Same-Service Simultaneous Booking Race Condition
     // -------------------------------------------------------------------------

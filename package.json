@@ -14,7 +14,8 @@
     "admin:hash": "tsx scripts/generate-admin-hash.ts",
     "postinstall": "prisma generate",
     "test": "vitest run",
-    "test:unit": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
     "test:security": "node --conditions=react-server --import tsx scripts/test-security.ts",
     "test:assistant": "node --conditions=react-server --import tsx scripts/test-assistant.ts",
     "test:concurrency": "node --conditions=react-server --import tsx scripts/test-concurrency.ts"
