@@ -36,7 +36,7 @@ export function QuoteContactForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedServiceId, setSelectedServiceId] = useState(() => {
-    return initialServiceSlug ? resolveServiceSlug(initialServiceSlug) : "custom-web-app";
+    return initialServiceSlug ? resolveServiceSlug(initialServiceSlug) : "business-websites-landing-pages";
   });
   const [budget, setBudget] = useState("₹5,000 – ₹10,000");
   const [requirements, setRequirements] = useState("");
@@ -241,7 +241,7 @@ export function QuoteContactForm({
             >
               {FREELANCE_SERVICES.map((s) => (
                 <option key={s.slug} value={s.slug} className="bg-[#090e1d] text-white">
-                  {s.title} (Starting ₹{s.startingPriceINR.toLocaleString("en-IN")})
+                  {s.title} (Introductory: ₹{s.startingPriceINR.toLocaleString("en-IN")}{s.priceUnit || ""})
                 </option>
               ))}
             </select>

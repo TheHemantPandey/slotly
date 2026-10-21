@@ -31,7 +31,7 @@ const BENEFITS: BenefitItem[] = [
     num: "02",
     icon: Lock,
     title: "Transparent Fixed Pricing",
-    headline: "Starting at ₹999 with zero hidden surprises",
+    headline: "Clear Standard & Introductory pricing with zero hidden surprises",
     description:
       "Clear, upfront scope and fixed pricing for every project. From single-page landing pages to full-scale web applications, you receive detailed milestone quotes before any work begins.",
     color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/30",

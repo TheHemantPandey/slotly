@@ -130,61 +130,79 @@ export function Footer() {
           {/* Column 2: Freelance Services */}
           <div className="space-y-4">
             <h4 className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-200">
-              Web Services
+              Web Services (8 Tracks)
             </h4>
-            <ul className="space-y-2.5 text-xs font-sans">
+            <ul className="space-y-2 text-xs font-sans">
               <li>
                 <Link
-                  href="/services/custom-web-app"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Cpu className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Custom Web Apps (From ₹14,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/landing-page"
+                  href="/services/business-websites-landing-pages"
                   className="inline-flex items-center gap-2 hover:text-white transition-colors group"
                 >
                   <Layers className="w-3.5 h-3.5 text-blue-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Landing Pages (From ₹4,799)</span>
+                  <span>Business Websites (From ₹9,600)</span>
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services/ecommerce-store"
+                  href="/services/custom-web-apps-dashboards"
                   className="inline-flex items-center gap-2 hover:text-white transition-colors group"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>E-Commerce Stores (From ₹9,599)</span>
+                  <Cpu className="w-3.5 h-3.5 text-indigo-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Custom Web Apps (From ₹28,000)</span>
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services/website-redesign"
-                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
-                >
-                  <Code2 className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Website Redesign (From ₹3,999)</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/ai-integration"
+                  href="/services/booking-management-systems"
                   className="inline-flex items-center gap-2 hover:text-white transition-colors group"
                 >
                   <Calendar className="w-3.5 h-3.5 text-teal-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>AI Tooling &amp; Bots (From ₹7,999)</span>
+                  <span>Booking Systems (From ₹20,000)</span>
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services/bug-fixes-maintenance"
+                  href="/services/ai-chatbots-automation"
                   className="inline-flex items-center gap-2 hover:text-white transition-colors group"
                 >
-                  <Palette className="w-3.5 h-3.5 text-violet-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
-                  <span>Bug Fixes &amp; Maintenance (₹999)</span>
+                  <Sparkles className="w-3.5 h-3.5 text-teal-300 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>AI Chatbots (From ₹14,400)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/ecommerce-payment-integration"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>E-Commerce &amp; Pay (From ₹20,000)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/backend-apis-integrations"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-violet-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Backend &amp; APIs (From ₹9,600)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/website-fixes-redesign-optimization"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Code2 className="w-3.5 h-3.5 text-amber-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Website Fixes &amp; SEO (From ₹6,400)</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/website-maintenance-support"
+                  className="inline-flex items-center gap-2 hover:text-white transition-colors group"
+                >
+                  <Palette className="w-3.5 h-3.5 text-rose-400 group-hover:scale-125 transition-transform duration-200 shrink-0" />
+                  <span>Maintenance Retainer (From ₹4,000/mo)</span>
                 </Link>
               </li>
             </ul>

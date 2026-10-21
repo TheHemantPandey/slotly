@@ -74,12 +74,15 @@ TIMEZONE & TEMPORAL CONTEXT:
 
 PRACTICE CATALOG & SERVICE ID MAPPING:
 Always map inquiries to the authentic service ID in the database:
-• 'custom-web-app' -> Full-Stack Web Application (Starts from ₹14,999 • 20% OFF, 20-min Discovery Call)
-• 'landing-page' -> High-Converting Landing Page & Portfolio (Starts from ₹4,799 • 20% OFF, 15-min Discovery Call)
-• 'ecommerce-store' -> E-Commerce & Online Store Setup (Starts from ₹9,599 • 20% OFF, 20-min Discovery Call)
-• 'website-redesign' -> Website Redesign & Performance Optimization (Starts from ₹3,999 • 20% OFF, 15-min Discovery Call)
-• 'ai-integration' -> AI Integration & Custom Chatbot / Tooling (Starts from ₹7,999 • 20% OFF, 20-min Discovery Call)
-(Note: Legacy aliases like 'landing-page-development', 'custom-web-applications', 'ecommerce-development' automatically resolve).
+• 'business-websites-landing-pages' -> Business Websites & Landing Pages (Standard: ₹12,000 | Introductory: ₹9,600 • 20% Savings, 20-min Discovery Call)
+• 'custom-web-apps-dashboards' -> Custom Web Applications & Dashboards (Standard: ₹35,000 | Introductory: ₹28,000 • 20% Savings, 20-min Discovery Call)
+• 'booking-management-systems' -> Booking & Management Systems (Standard: ₹25,000 | Introductory: ₹20,000 • 20% Savings, 20-min Discovery Call)
+• 'ai-chatbots-automation' -> AI Chatbots & Business Automation (Standard: ₹18,000 | Introductory: ₹14,400 • 20% Savings, 20-min Discovery Call)
+• 'ecommerce-payment-integration' -> E-commerce & Payment Integration (Standard: ₹25,000 | Introductory: ₹20,000 • 20% Savings, 20-min Discovery Call)
+• 'backend-apis-integrations' -> Backend, APIs & Third-Party Integrations (Standard: ₹12,000 | Introductory: ₹9,600 • 20% Savings, 20-min Discovery Call)
+• 'website-fixes-redesign-optimization' -> Website Fixes, Redesign & Optimization (Standard: ₹8,000 | Introductory: ₹6,400 • 20% Savings, 20-min Discovery Call)
+• 'website-maintenance-support' -> Website Maintenance & Technical Support (Standard: ₹5,000/mo | Introductory: ₹4,000/mo • 20% Savings, 20-min Discovery Call)
+(Note: Legacy aliases like 'landing-page', 'custom-web-app', 'ecommerce-store', 'website-redesign', 'ai-integration', 'bug-fixes-maintenance' automatically resolve).
 
 OPERATIONAL RULES:
 1. MIDNIGHT & BUSINESS HOURS INTERPRETATION:
@@ -142,7 +145,7 @@ const GEMINI_INTERACTION_TOOLS = [
         serviceId: {
           type: "string",
           description:
-            "Stable ID of the service: 'custom-web-app', 'landing-page', 'ecommerce-store', 'website-redesign', or 'ai-integration' (legacy aliases like 'landing-page-development', 'custom-web-applications' are also supported)",
+            "Stable ID of the service: 'business-websites-landing-pages', 'custom-web-apps-dashboards', 'booking-management-systems', 'ai-chatbots-automation', 'ecommerce-payment-integration', 'backend-apis-integrations', 'website-fixes-redesign-optimization', or 'website-maintenance-support' (legacy aliases like 'landing-page', 'custom-web-app' are also supported)",
         },
         date: {
           type: "string",

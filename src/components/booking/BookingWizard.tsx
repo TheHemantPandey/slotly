@@ -109,27 +109,39 @@ function generateUpcomingBusinessDays(count = 10): CalendarDayItem[] {
 
 function getServiceIcon(id: string) {
   switch (id) {
+    case "custom-web-apps-dashboards":
     case "custom-web-app":
     case "custom-web-applications":
-    case "booking-website":
-    case "business-website-development":
       return <Code2 className="w-4 h-4 text-indigo-400 shrink-0" />;
+    case "business-websites-landing-pages":
     case "landing-page":
     case "landing-page-development":
     case "portfolio-website":
+    case "business-website-development":
       return <Laptop className="w-4 h-4 text-emerald-400 shrink-0" />;
+    case "booking-management-systems":
+    case "booking-website":
+      return <CalendarIcon className="w-4 h-4 text-blue-400 shrink-0" />;
+    case "ai-chatbots-automation":
+    case "ai-integration":
+      return <Sparkles className="w-4 h-4 text-teal-400 shrink-0" />;
+    case "ecommerce-payment-integration":
     case "ecommerce-store":
     case "ecommerce-development":
       return <Layers className="w-4 h-4 text-purple-400 shrink-0" />;
+    case "backend-apis-integrations":
+    case "backend-api-development":
+      return <Code2 className="w-4 h-4 text-violet-400 shrink-0" />;
+    case "website-fixes-redesign-optimization":
     case "website-redesign":
     case "website-redesign-modernization":
     case "speed-seo-optimization":
-    case "bug-fixes-maintenance":
     case "custom-feature-bug-fix":
-    case "website-maintenance-support":
       return <RefreshCw className="w-4 h-4 text-amber-400 shrink-0" />;
-    case "ai-integration":
-      return <Sparkles className="w-4 h-4 text-teal-400 shrink-0" />;
+    case "website-maintenance-support":
+    case "bug-fixes-maintenance":
+    case "website-maintenance":
+      return <ShieldCheck className="w-4 h-4 text-rose-400 shrink-0" />;
     default:
       return <Globe className="w-4 h-4 text-blue-400 shrink-0" />;
   }
@@ -618,7 +630,8 @@ export function BookingWizard({ initialServiceId }: BookingWizardProps = {}) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {services.map((svc) => {
                 const isSelected = selectedService.id === svc.id;
-                const originalPrice = svc.originalFeeINR || Math.round(svc.feeINR * 1.25);
+                const standardPrice = svc.standardFeeINR || svc.originalFeeINR || Math.round(svc.feeINR * 1.25);
+                const unit = svc.priceUnit || "";
                 return (
                   <div
                     key={svc.id}
@@ -663,21 +676,22 @@ export function BookingWizard({ initialServiceId }: BookingWizardProps = {}) {
                       <div className="flex items-center gap-2 mb-2">
                         <span className="text-zinc-400 text-[10px] font-mono flex items-center gap-1">
                           <Clock className="w-3 h-3 text-zinc-500" />
-                          {svc.durationMinutes} min enquiry
+                          {svc.durationMinutes} min consultation
                         </span>
                         <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                          20% OFF
+                          20% SAVINGS
                         </span>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between font-mono text-xs pt-2 border-t border-white/[0.06] mt-1">
                       <div>
-                        <div className="text-[10px] text-zinc-500 line-through">
-                          ₹{originalPrice.toLocaleString("en-IN")}
+                        <div className="text-[10px] text-zinc-400">
+                          <span>Standard: </span>
+                          <span className="line-through text-zinc-500">₹{standardPrice.toLocaleString("en-IN")}{unit}</span>
                         </div>
-                        <div className="text-emerald-400 font-bold text-xs">
-                          Starts from ₹{svc.feeINR.toLocaleString("en-IN")}
+                        <div className="text-emerald-400 font-bold text-xs mt-0.5">
+                          Introductory: ₹{svc.feeINR.toLocaleString("en-IN")}{unit}
                         </div>
                       </div>
 

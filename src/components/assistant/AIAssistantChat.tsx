@@ -29,7 +29,7 @@ const INITIAL_MESSAGES: AssistantMessage[] = [
     id: "msg-welcome",
     role: "assistant",
     content:
-      "Welcome to the Slotly Concierge powered by Google Gemini 3.8 Flash. I can help you explore Hemant's 8 freelance web services (from Landing Pages starting at ₹2,999 to custom Web Applications), check live calendar availability, or stage a project discovery call.\n\nWhat kind of website or project are you looking to build?",
+      "Welcome to the Slotly Concierge powered by Google Gemini 3.8 Flash. I can help you explore Hemant's 8 freelance web services (with introductory package pricing from ₹6,400 to custom Web Applications), check live calendar availability, or stage a project discovery call.\n\nWhat kind of website or project are you looking to build?",
     timestamp: "Just now",
     suggestedAction: {
       label: "Explore All 8 Services",

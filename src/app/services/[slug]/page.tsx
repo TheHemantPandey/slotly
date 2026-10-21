@@ -38,8 +38,9 @@ export async function generateMetadata({
     };
   }
 
-  const title = `${service.title} — Starting at ₹${service.startingPriceINR.toLocaleString("en-IN")} | Slotly`;
-  const description = `${service.tagline} Direct freelance web development by Hemant Pandey. Transparent deliverables, fixed starting price, and fast turnaround.`;
+  const unit = service.priceUnit || "";
+  const title = `${service.title} — Introductory: ₹${service.startingPriceINR.toLocaleString("en-IN")}${unit} (20% Savings) | Slotly`;
+  const description = `${service.tagline} Direct freelance web development by Hemant Pandey. Standard Package: ₹${(service.standardPriceINR || service.startingPriceINR * 1.25).toLocaleString("en-IN")}${unit}, Introductory: ₹${service.startingPriceINR.toLocaleString("en-IN")}${unit}. Transparent deliverables and fast turnaround.`;
 
   return {
     title,
@@ -88,7 +89,7 @@ export default async function ServiceDedicatedPage({ params }: ServicePageProps)
         "@type": "UnitPriceSpecification",
         price: service.startingPriceINR,
         priceCurrency: "INR",
-        unitText: "project starting price",
+        unitText: service.priceUnit ? "monthly package retainer" : "introductory package price",
       },
       availability: "https://schema.org/InStock",
     },

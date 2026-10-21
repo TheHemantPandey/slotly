@@ -18,22 +18,22 @@ import {
 
 const RECOMMENDED_SERVICES = [
   {
-    title: "Landing Page & Portfolio",
-    price: "Starts ₹4,799",
-    href: "/services/landing-page",
-    desc: "Fast, conversion-focused Next.js landing page with 20% market discount.",
+    title: "Business Websites & Landing Pages",
+    price: "Introductory: ₹9,600",
+    href: "/services/business-websites-landing-pages",
+    desc: "Fast, conversion-focused Next.js business website with 20% introductory savings.",
   },
   {
-    title: "Full-Stack Web App",
-    price: "Starts ₹14,999",
-    href: "/services/custom-web-app",
-    desc: "Custom SaaS, client portals, and secure database systems.",
+    title: "Custom Web Apps & Dashboards",
+    price: "Introductory: ₹28,000",
+    href: "/services/custom-web-apps-dashboards",
+    desc: "Custom SaaS MVPs, client portals, and secure relational database systems.",
   },
   {
-    title: "E-Commerce & Store",
-    price: "Starts ₹9,599",
-    href: "/services/ecommerce-store",
-    desc: "Online storefront with product catalog and online payment integration.",
+    title: "Booking & Management Systems",
+    price: "Introductory: ₹20,000",
+    href: "/services/booking-management-systems",
+    desc: "Automated reservation system with real-time calendar availability and intake forms.",
   },
 ];
 

@@ -18,11 +18,13 @@ import {
 
 const CATEGORIES: ("All" | ServiceCategory)[] = [
   "All",
-  "Web Applications",
   "Websites",
+  "Web Applications",
   "E-commerce",
-  "Design & Optimization",
   "AI & Automation",
+  "Backend & APIs",
+  "Design & Optimization",
+  "Maintenance & Support",
 ];
 
 const CATEGORY_STYLES: Record<
@@ -76,6 +78,22 @@ const CATEGORY_STYLES: Record<
     glow: "from-teal-600/15 via-teal-950/20 to-transparent",
     priceColor: "text-teal-200",
   },
+  "Backend & APIs": {
+    border: "border-violet-500/30",
+    hoverBorder: "hover:border-violet-400/60",
+    badgeBg: "bg-violet-500/15 border-violet-500/30",
+    badgeText: "text-violet-300",
+    glow: "from-violet-600/15 via-violet-950/20 to-transparent",
+    priceColor: "text-violet-200",
+  },
+  "Maintenance & Support": {
+    border: "border-rose-500/30",
+    hoverBorder: "hover:border-rose-400/60",
+    badgeBg: "bg-rose-500/15 border-rose-500/30",
+    badgeText: "text-rose-300",
+    glow: "from-rose-600/15 via-rose-950/20 to-transparent",
+    priceColor: "text-rose-200",
+  },
 };
 
 function CatalogCard({ service }: { service: ServiceDetail }) {
@@ -92,7 +110,8 @@ function CatalogCard({ service }: { service: ServiceDetail }) {
   };
 
   const style = CATEGORY_STYLES[service.category] || CATEGORY_STYLES["Web Applications"];
-  const originalPrice = service.originalPriceINR || Math.round(service.startingPriceINR * 1.25);
+  const standardPrice = service.standardPriceINR || service.originalPriceINR || Math.round(service.startingPriceINR * 1.25);
+  const unit = service.priceUnit || "";
 
   return (
     <motion.div
@@ -147,24 +166,25 @@ function CatalogCard({ service }: { service: ServiceDetail }) {
           {service.tagline}
         </p>
 
-        {/* Price Plate: Starts from ₹X,XXX with strikethrough original and 20% OFF */}
+        {/* Price Plate: Standard vs Introductory Price */}
         <div className="pb-5 border-b border-white/[0.08] mb-5">
           <div className="p-3.5 rounded-xl bg-[#04060e]/90 border border-white/10 shadow-inner flex items-baseline justify-between gap-2">
             <div>
-              <div className="text-[10px] font-mono text-zinc-500 line-through">
-                Was ₹{originalPrice.toLocaleString("en-IN")}
+              <div className="text-[10px] font-mono text-zinc-400">
+                <span>Standard: </span>
+                <span className="line-through text-zinc-500">₹{standardPrice.toLocaleString("en-IN")}{unit}</span>
               </div>
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-mono text-zinc-400">Starts from</span>
+              <div className="flex items-baseline gap-1.5 mt-0.5">
+                <span className="text-xs font-mono text-emerald-400 font-medium">Introductory:</span>
                 <span className={`text-2xl sm:text-3xl font-mono font-bold ${style.priceColor}`}>
                   ₹{service.startingPriceINR.toLocaleString("en-IN")}
                 </span>
-                <span className="text-[11px] font-mono text-zinc-500">INR</span>
+                <span className="text-[11px] font-mono text-zinc-400">{unit ? unit : "INR"}</span>
               </div>
             </div>
 
             <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold shrink-0">
-              20% OFF
+              20% SAVINGS
             </span>
           </div>
         </div>

@@ -44,7 +44,7 @@ export const FEATURE_PILLARS = [
     code: "02",
     title: "8 Practical Web Services",
     description:
-      "From ₹2,999 landing pages to full-scale e-commerce and booking platforms, all tailored to client goals with fixed upfront pricing.",
+      "From ₹6,400 performance optimization to bespoke web applications and booking systems, all tailored to client goals with transparent introductory pricing.",
   },
   {
     code: "03",

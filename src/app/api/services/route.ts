@@ -14,6 +14,8 @@ export async function GET() {
       durationMinutes: s.durationMinutes,
       priceInPaise: s.priceInPaise,
       feeINR: Math.round(s.priceInPaise / 100),
+      standardFeeINR: Math.round((s.priceInPaise / 100) * 1.25),
+      priceUnit: s.id === "website-maintenance-support" ? "/month" : undefined,
       currency: s.currency,
       category: s.category,
       deliverables: s.deliverables,
