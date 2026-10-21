@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "127.0.0.1";
 
-    const rate = checkRateLimit(`cancel_appointment_${ip}`, 15, 60 * 1000);
+    const rate = await checkRateLimit(`cancel_appointment_${ip}`, 15, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         { success: false, error: "Too many cancellation attempts. Please try again later." },

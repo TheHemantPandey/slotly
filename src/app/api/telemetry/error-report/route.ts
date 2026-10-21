@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       "127.0.0.1";
 
     // Rate limiting: 10 reports per minute per IP
-    const rate = checkRateLimit(`telemetry_error_${ip}`, 10, 60 * 1000);
+    const rate = await checkRateLimit(`telemetry_error_${ip}`, 10, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {

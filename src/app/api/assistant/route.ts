@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       "127.0.0.1";
 
     // Rate limiting: 20 assistant requests per minute per IP
-    const rate = checkRateLimit(`assistant_chat_${ip}`, 20, 60 * 1000);
+    const rate = await checkRateLimit(`assistant_chat_${ip}`, 20, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {

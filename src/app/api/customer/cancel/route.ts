@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "127.0.0.1";
 
-    const rate = checkRateLimit(`customer_cancel_${ip}`, 10, 60 * 1000);
+    const rate = await checkRateLimit(`customer_cancel_${ip}`, 10, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {

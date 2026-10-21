@@ -1,0 +1,117 @@
+# ==============================================================================
+# Docker Compose Orchestration for Slotly
+# Services: Next.js App, PostgreSQL, and Redis
+# ==============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. Next.js 16 Web Application
+  # ---------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: slotly-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Database connection defaults to internal postgres service if not overridden
+      - DATABASE_URL=${DATABASE_URL:-postgresql://${POSTGRES_USER:-slotly}:${POSTGRES_PASSWORD:-slotly_secret}@postgres:5432/${POSTGRES_DB:-slotly}?sslmode=disable}
+      - DIRECT_URL=${DIRECT_URL:-postgresql://${POSTGRES_USER:-slotly}:${POSTGRES_PASSWORD:-slotly_secret}@postgres:5432/${POSTGRES_DB:-slotly}?sslmode=disable}
+      # Redis rate limiter defaults to internal redis service if not overridden
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+      # Application secrets & integrations (passed securely from environment or .env)
+      - ADMIN_EMAIL=${ADMIN_EMAIL:-admin@slotly.atelier}
+      - ADMIN_PASSWORD_HASH=${ADMIN_PASSWORD_HASH}
+      - ADMIN_SESSION_SECRET=${ADMIN_SESSION_SECRET}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-3.8-flash}
+      - RESEND_API_KEY=${RESEND_API_KEY}
+      - RESEND_FROM_EMAIL=${RESEND_FROM_EMAIL:-Slotly <onboarding@resend.dev>}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - slotly-network
+
+  # ---------------------------------------------------------------------------
+  # 2. PostgreSQL Relational Database (v16 Alpine)
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: postgres:16-alpine
+    container_name: slotly-postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-slotly}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-slotly_secret}
+      POSTGRES_DB: ${POSTGRES_DB:-slotly}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-slotly} -d ${POSTGRES_DB:-slotly}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - slotly-network
+
+  # ---------------------------------------------------------------------------
+  # 3. Redis In-Memory Data Store (v7 Alpine with AOF persistence)
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: slotly-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - slotly-network
+
+  # ---------------------------------------------------------------------------
+  # 4. Non-Destructive Database Migration Runner (Run on-demand: docker compose run --rm migrate)
+  # ---------------------------------------------------------------------------
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: slotly-migrate
+    environment:
+      - DATABASE_URL=${DATABASE_URL:-postgresql://${POSTGRES_USER:-slotly}:${POSTGRES_PASSWORD:-slotly_secret}@postgres:5432/${POSTGRES_DB:-slotly}?sslmode=disable}
+      - DIRECT_URL=${DIRECT_URL:-postgresql://${POSTGRES_USER:-slotly}:${POSTGRES_PASSWORD:-slotly_secret}@postgres:5432/${POSTGRES_DB:-slotly}?sslmode=disable}
+    command: ["npx", "prisma", "migrate", "deploy"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - slotly-network
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
+    name: slotly_postgres_data
+  redis_data:
+    name: slotly_redis_data
+
+networks:
+  slotly-network:
+    name: slotly_network
+    driver: bridge

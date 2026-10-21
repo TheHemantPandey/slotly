@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
     request.headers.get("x-real-ip") ||
     "127.0.0.1";
 
-  const rate = checkRateLimit(`assistant_confirm_${ip}`, 20, 60 * 1000);
+  const rate = await checkRateLimit(`assistant_confirm_${ip}`, 20, 60 * 1000);
   if (!rate.allowed) {
     return NextResponse.json(
       {

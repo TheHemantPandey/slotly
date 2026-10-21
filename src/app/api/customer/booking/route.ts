@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       "127.0.0.1";
 
     // Rate limiting: 20 token lookups per minute per IP
-    const rate = checkRateLimit(`customer_lookup_${ip}`, 20, 60 * 1000);
+    const rate = await checkRateLimit(`customer_lookup_${ip}`, 20, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {

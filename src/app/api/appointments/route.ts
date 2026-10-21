@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "127.0.0.1";
 
-    const rate = checkRateLimit(`get_appointments_${ip}`, 60, 60 * 1000);
+    const rate = await checkRateLimit(`get_appointments_${ip}`, 60, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         { success: false, error: "Too many requests. Please try again later." },
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
       "127.0.0.1";
 
     // Rate limiting: max 10 bookings per minute per IP
-    const rate = checkRateLimit(`post_appointments_${ip}`, 10, 60 * 1000);
+    const rate = await checkRateLimit(`post_appointments_${ip}`, 10, 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {

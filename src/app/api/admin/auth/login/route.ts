@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       "127.0.0.1";
 
     // Strict rate limiting: max 5 login attempts per 15 minutes per IP
-    const rate = checkRateLimit(`admin_login_${ip}`, 5, 15 * 60 * 1000);
+    const rate = await checkRateLimit(`admin_login_${ip}`, 5, 15 * 60 * 1000);
     if (!rate.allowed) {
       return NextResponse.json(
         {
