@@ -63,7 +63,15 @@ export function checkMemoryRateLimit(
   };
 }
 
-// Atomic Redis sliding window counter Lua script
+/**
+ * Atomic Redis Fixed-Window Rate Limiter with Millisecond Expiry (Lua script).
+ * Executes INCR and PEXPIRE atomically within Redis's single-threaded event loop,
+ * preventing race conditions across concurrent client requests and multiple server instances.
+ * 
+ * Note: If Redis is unavailable, the fallback store operates in Node.js process memory.
+ * Process memory is isolated per server instance and is NOT distributed across multiple replicas.
+ * Shared, cluster-wide rate limiting requires a reachable Redis instance (REDIS_URL).
+ */
 const RATE_LIMIT_LUA = `
 local key = KEYS[1]
 local windowMs = tonumber(ARGV[1])
