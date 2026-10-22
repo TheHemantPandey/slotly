@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
 
     const managementUrl = `/my-booking/${created.customerToken}`;
 
-    // Dispatch professional Resend confirmation email (gracefully failsafe & non-blocking)
+    // Dispatch professional confirmation email (gracefully failsafe & non-blocking)
     sendBookingConfirmationEmail({
       appointmentId: created.id,
       serviceTitle: created.service.name,
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
       timezone: created.timezone,
       customerToken: created.customerToken,
     }).catch((err) => {
-      console.warn("[Resend Warning] Non-blocking dispatch failed:", err);
+      console.warn("[Email Warning] Non-blocking dispatch failed:", err);
     });
 
     return NextResponse.json(

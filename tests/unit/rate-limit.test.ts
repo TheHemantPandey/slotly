@@ -80,7 +80,7 @@ describe("Rate Limiting Service", () => {
         eval: mockEval,
       };
 
-      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as any);
+      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as unknown as ReturnType<typeof redisModule.getRedisClient>);
 
       const result = await checkRateLimit("redis_key_1", 5, 60000);
       expect(result.allowed).toBe(true);
@@ -102,7 +102,7 @@ describe("Rate Limiting Service", () => {
         eval: mockEval,
       };
 
-      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as any);
+      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as unknown as ReturnType<typeof redisModule.getRedisClient>);
 
       const result = await checkRateLimit("redis_key_exceeded", 5, 60000);
       expect(result.allowed).toBe(false);
@@ -122,7 +122,7 @@ describe("Rate Limiting Service", () => {
         eval: vi.fn().mockRejectedValue(new Error("ECONNREFUSED: Redis cluster unreachable")),
       };
 
-      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as any);
+      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as unknown as ReturnType<typeof redisModule.getRedisClient>);
 
       // Should NOT throw; must gracefully fall back to local in-memory store
       const result = await checkRateLimit("fallback_key", 2, 60000);
@@ -146,7 +146,7 @@ describe("Rate Limiting Service", () => {
         eval: vi.fn(),
       };
 
-      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as any);
+      vi.spyOn(redisModule, "getRedisClient").mockReturnValue(mockClient as unknown as ReturnType<typeof redisModule.getRedisClient>);
 
       const result = await checkRateLimit("conn_fail_key", 5, 60000);
       expect(result.allowed).toBe(true);

@@ -1,5 +1,6 @@
 import "server-only";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+import type { Transporter } from "nodemailer";
 
 export interface BookingEmailPayload {
   appointmentId: string;
@@ -33,12 +34,134 @@ export interface EmailDeliveryResult {
   reason?: "NOT_CONFIGURED" | "DELIVERY_ERROR" | "SUCCESS";
 }
 
+export interface SendMailOptions {
+  to: string | string[];
+  subject: string;
+  html?: string;
+  text?: string;
+  from?: string;
+  replyTo?: string;
+}
+
 /**
- * Returns whether Resend API key is configured.
+ * Returns whether Gmail SMTP credentials (GMAIL_USER and GMAIL_APP_PASSWORD) are configured.
  */
-export function isResendConfigured(): boolean {
-  const key = process.env.RESEND_API_KEY;
-  return typeof key === "string" && key.trim().length > 0;
+export function isGmailConfigured(): boolean {
+  const user = process.env.GMAIL_USER?.trim();
+  const pass = process.env.GMAIL_APP_PASSWORD?.trim();
+  return Boolean(user && pass);
+}
+
+// Backward-compatible aliases
+export const isEmailConfigured = isGmailConfigured;
+export const isResendConfigured = isGmailConfigured;
+
+let cachedTransporter: Transporter | null = null;
+
+/**
+ * Returns a configured Nodemailer Transporter instance for Gmail SMTP.
+ * Host: smtp.gmail.com, Port: 465, Secure: true
+ */
+export function getEmailTransporter(): Transporter | null {
+  if (!isGmailConfigured()) {
+    return null;
+  }
+
+  if (cachedTransporter) {
+    return cachedTransporter;
+  }
+
+  const user = process.env.GMAIL_USER!.trim();
+  const pass = process.env.GMAIL_APP_PASSWORD!.trim();
+
+  cachedTransporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user,
+      pass,
+    },
+  });
+
+  return cachedTransporter;
+}
+
+/**
+ * Default sender address using GMAIL_USER or custom EMAIL_FROM.
+ */
+export function getDefaultFromAddress(): string {
+  const customFrom = process.env.EMAIL_FROM?.trim() || process.env.GMAIL_FROM?.trim();
+  if (customFrom) {
+    return customFrom;
+  }
+  const user = process.env.GMAIL_USER?.trim() || "noreply@gmail.com";
+  return `Slotly <${user}>`;
+}
+
+/**
+ * Reusable server-side email sender via Nodemailer and Gmail SMTP.
+ * Failsafe: logs clearly, catches unexpected errors, and returns a structured result without throwing.
+ */
+export async function sendMail(options: SendMailOptions): Promise<EmailDeliveryResult> {
+  const user = process.env.GMAIL_USER?.trim();
+  const pass = process.env.GMAIL_APP_PASSWORD?.trim();
+
+  if (!user || !pass) {
+    console.log(
+      `[Email Notice] GMAIL_USER or GMAIL_APP_PASSWORD is not configured. Email skipped for: ${JSON.stringify(options.to)}`
+    );
+    return {
+      success: true,
+      delivered: false,
+      reason: "NOT_CONFIGURED",
+    };
+  }
+
+  const transporter = getEmailTransporter();
+  if (!transporter) {
+    return {
+      success: false,
+      delivered: false,
+      error: "Nodemailer transporter could not be initialized.",
+      reason: "DELIVERY_ERROR",
+    };
+  }
+
+  const from = options.from || getDefaultFromAddress();
+
+  try {
+    const info = await transporter.sendMail({
+      from,
+      to: options.to,
+      subject: options.subject,
+      html: options.html,
+      text: options.text,
+      replyTo: options.replyTo,
+    });
+
+    console.log(
+      `[Email Delivered] Successfully sent email to ${JSON.stringify(options.to)} (Message ID: ${info.messageId})`
+    );
+
+    return {
+      success: true,
+      delivered: true,
+      id: info.messageId,
+      reason: "SUCCESS",
+    };
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    console.warn(
+      `[Email Exception] Failed to send email to ${JSON.stringify(options.to)}: ${message}`
+    );
+    return {
+      success: false,
+      delivered: false,
+      error: message,
+      reason: "DELIVERY_ERROR",
+    };
+  }
 }
 
 /**
@@ -323,138 +446,43 @@ function escapeHtml(str: string): string {
 }
 
 /**
- * Send booking confirmation email via Resend.
- * Fully failsafe: If RESEND_API_KEY is not configured or if Resend returns an error,
+ * Send booking confirmation email via Nodemailer and Gmail SMTP.
+ * Fully failsafe: If GMAIL_USER/GMAIL_APP_PASSWORD is not configured or if sending fails,
  * this function catches it gracefully, logs a clear message, and never throws.
  */
 export async function sendBookingConfirmationEmail(
   payload: BookingEmailPayload
 ): Promise<EmailDeliveryResult> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-
-  // 1. Graceful bypass when Resend is not yet configured
-  if (!apiKey) {
-    console.log(
-      `[Resend Notice] RESEND_API_KEY is not configured. Email confirmation skipped for booking ${payload.appointmentId} to ${payload.clientEmail}.`
-    );
-    return {
-      success: true,
-      delivered: false,
-      reason: "NOT_CONFIGURED",
-    };
-  }
-
   const appUrl = getAppBaseUrl();
   const managementUrl = `${appUrl}/my-booking/${payload.customerToken}`;
-  const fromAddress =
-    process.env.RESEND_FROM_EMAIL?.trim() || "Slotly <onboarding@resend.dev>";
+  const html = buildConfirmationHtml(payload, managementUrl);
+  const text = buildConfirmationText(payload, managementUrl);
 
-  try {
-    const resend = new Resend(apiKey);
-    const html = buildConfirmationHtml(payload, managementUrl);
-    const text = buildConfirmationText(payload, managementUrl);
-
-    const response = await resend.emails.send({
-      from: fromAddress,
-      to: [payload.clientEmail],
-      subject: `Confirmed: ${payload.serviceTitle} with Slotly`,
-      html,
-      text,
-    });
-
-    if (response.error) {
-      console.warn(
-        `[Resend Error] Delivery failed for ${payload.clientEmail}:`,
-        response.error
-      );
-      return {
-        success: false,
-        delivered: false,
-        error: response.error.message,
-        reason: "DELIVERY_ERROR",
-      };
-    }
-
-    console.log(
-      `[Resend] Successfully delivered confirmation email to ${payload.clientEmail} (Resend ID: ${response.data?.id})`
-    );
-
-    return {
-      success: true,
-      delivered: true,
-      id: response.data?.id,
-      reason: "SUCCESS",
-    };
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.warn(
-      `[Resend Exception] Unexpected error sending email to ${payload.clientEmail}: ${message}`
-    );
-    return {
-      success: false,
-      delivered: false,
-      error: message,
-      reason: "DELIVERY_ERROR",
-    };
-  }
+  return sendMail({
+    to: payload.clientEmail,
+    subject: `Confirmed: ${payload.serviceTitle} with Slotly`,
+    html,
+    text,
+  });
 }
 
 /**
- * Send cancellation email via Resend (optional notification).
+ * Send cancellation email via Nodemailer and Gmail SMTP (optional notification).
  * Also completely failsafe and non-blocking.
  */
 export async function sendBookingCancellationEmail(
   payload: CancellationEmailPayload
 ): Promise<EmailDeliveryResult> {
-  const apiKey = process.env.RESEND_API_KEY?.trim();
-
-  if (!apiKey) {
-    return {
-      success: true,
-      delivered: false,
-      reason: "NOT_CONFIGURED",
-    };
-  }
-
-  const fromAddress =
-    process.env.RESEND_FROM_EMAIL?.trim() || "Slotly <onboarding@resend.dev>";
   const tz = payload.timezone || "Asia/Kolkata";
   const formattedStart = formatAppointmentTime(payload.startTime, tz);
 
-  try {
-    const resend = new Resend(apiKey);
-    const response = await resend.emails.send({
-      from: fromAddress,
-      to: [payload.clientEmail],
-      subject: `Cancelled: ${payload.serviceTitle} appointment with Slotly`,
-      text: `Hello ${payload.clientName},\n\nYour appointment for "${payload.serviceTitle}" scheduled on ${formattedStart} (${tz}) has been cancelled.\n\n${
-        payload.cancellationReason
-          ? `Reason: ${payload.cancellationReason}\n\n`
-          : ""
-      }If this was unintentional, you may book a new slot anytime at ${getAppBaseUrl()}.\n\nSlotly Atelier`,
-    });
-
-    if (response.error) {
-      return {
-        success: false,
-        delivered: false,
-        error: response.error.message,
-        reason: "DELIVERY_ERROR",
-      };
-    }
-
-    return {
-      success: true,
-      delivered: true,
-      id: response.data?.id,
-      reason: "SUCCESS",
-    };
-  } catch (error: unknown) {
-    return {
-      success: false,
-      delivered: false,
-      error: error instanceof Error ? error.message : String(error),
-      reason: "DELIVERY_ERROR",
-    };
-  }
+  return sendMail({
+    to: payload.clientEmail,
+    subject: `Cancelled: ${payload.serviceTitle} appointment with Slotly`,
+    text: `Hello ${payload.clientName},\n\nYour appointment for "${payload.serviceTitle}" scheduled on ${formattedStart} (${tz}) has been cancelled.\n\n${
+      payload.cancellationReason
+        ? `Reason: ${payload.cancellationReason}\n\n`
+        : ""
+    }If this was unintentional, you may book a new slot anytime at ${getAppBaseUrl()}.\n\nSlotly Atelier`,
+  });
 }

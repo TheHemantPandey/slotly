@@ -43,6 +43,10 @@ vi.mock("@/lib/server/appointments-repository", async (importOriginal) => {
 vi.mock("@/lib/server/email", () => ({
   sendBookingConfirmationEmail: vi.fn().mockResolvedValue({ success: true }),
   sendBookingCancellationEmail: vi.fn().mockResolvedValue({ success: true }),
+  sendMail: vi.fn().mockResolvedValue({ success: true, delivered: true }),
+  isEmailConfigured: vi.fn().mockReturnValue(true),
+  isGmailConfigured: vi.fn().mockReturnValue(true),
+  isResendConfigured: vi.fn().mockReturnValue(true),
 }));
 
 describe("Slotly API Routes Integration Tests", () => {
@@ -172,9 +176,9 @@ describe("Slotly API Routes Integration Tests", () => {
   // ---------------------------------------------------------------------------
   describe("POST /api/appointments", () => {
     it("returns 400 when input validation fails (e.g. invalid email, past date)", async () => {
-      vi.mocked(createPersistedAppointment).mockImplementation((input) => {
+      vi.mocked(createPersistedAppointment).mockImplementation(async (input) => {
         createAppointmentSchema.parse(input);
-        return {} as any;
+        return {} as unknown as Awaited<ReturnType<typeof createPersistedAppointment>>;
       });
 
       const req = new NextRequest(`${BASE_URL}/api/appointments`, {

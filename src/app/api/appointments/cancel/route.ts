@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
         timezone: cancelled.timezone,
         cancellationReason: cancelled.cancellationReason ?? undefined,
       }).catch((err) => {
-        console.warn("[Resend Warning] Non-blocking admin cancellation email failed:", err);
+        console.warn("[Email Warning] Non-blocking admin cancellation email failed:", err);
       });
 
       return NextResponse.json({
@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
       timezone: cancelled.timezone,
       cancellationReason: cancelled.cancellationReason ?? undefined,
     }).catch((err) => {
-      console.warn("[Resend Warning] Non-blocking customer cancellation email failed:", err);
+      console.warn("[Email Warning] Non-blocking customer cancellation email failed:", err);
     });
 
     return NextResponse.json({

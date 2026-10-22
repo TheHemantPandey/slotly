@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServiceBySlug } from "@/lib/services-catalog";
-import { isResendConfigured } from "@/lib/server/email";
-import { Resend } from "resend";
+import { isEmailConfigured, sendMail } from "@/lib/server/email";
 
 export async function POST(req: NextRequest) {
   try {
@@ -46,16 +45,13 @@ export async function POST(req: NextRequest) {
     console.log(`  Budget: ${budget || "Not specified"}`);
     console.log(`  Requirements: ${requirements.trim()}`);
 
-    // If Resend is configured, trigger transactional notification emails
-    if (isResendConfigured()) {
+    // If email is configured, trigger transactional notification emails via Nodemailer Gmail SMTP
+    if (isEmailConfigured()) {
       try {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        const fromEmail = process.env.EMAIL_FROM || "Hemant Pandey <onboarding@resend.dev>";
         const adminEmail = process.env.ADMIN_NOTIFICATION_EMAIL || "contact@hemantpandey.in";
 
         // 1. Send confirmation to client
-        await resend.emails.send({
-          from: fromEmail,
+        await sendMail({
           to: email.trim(),
           subject: `Quote Request Received: ${serviceTitle} (${referenceId})`,
           html: `
@@ -90,8 +86,7 @@ export async function POST(req: NextRequest) {
         });
 
         // 2. Send notification to admin/developer
-        await resend.emails.send({
-          from: fromEmail,
+        await sendMail({
           to: adminEmail,
           subject: `⚡ New Quote Request: ${name.trim()} - ${serviceTitle} (${referenceId})`,
           html: `
@@ -106,7 +101,7 @@ export async function POST(req: NextRequest) {
           `,
         });
       } catch (emailErr) {
-        console.warn("Could not dispatch quote email via Resend:", emailErr);
+        console.warn("Could not dispatch quote email via Gmail SMTP:", emailErr);
       }
     }
 

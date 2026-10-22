@@ -227,7 +227,7 @@ export async function POST(request: NextRequest) {
         customerToken: created.customerToken,
       };
 
-      // Dispatch professional Resend confirmation email if this is a newly created booking
+      // Dispatch professional confirmation email if this is a newly created booking
       if (!created.isExisting) {
         sendBookingConfirmationEmail({
           appointmentId: created.id,
@@ -242,7 +242,7 @@ export async function POST(request: NextRequest) {
           timezone: created.timezone,
           customerToken: created.customerToken,
         }).catch((err) => {
-          console.warn("[Resend Warning] Non-blocking dispatch failed:", err);
+          console.warn("[Email Warning] Non-blocking dispatch failed:", err);
         });
       }
 

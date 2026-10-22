@@ -2,7 +2,6 @@ import "server-only";
 import Redis from "ioredis";
 
 declare global {
-  // eslint-disable-next-line no-var
   var __slotlyRedisInstance: Redis | undefined;
 }
 

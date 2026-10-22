@@ -494,7 +494,7 @@ async function executeToolCall(
           href: managementUrl,
         };
 
-        // Failsafe Resend email notification
+        // Failsafe email notification
         sendBookingConfirmationEmail({
           appointmentId: created.id,
           serviceTitle: created.service.name,
@@ -508,7 +508,7 @@ async function executeToolCall(
           timezone: created.timezone,
           customerToken: created.customerToken,
         }).catch((err) => {
-          console.warn("[Resend Warning] Non-blocking dispatch failed:", err);
+          console.warn("[Email Warning] Non-blocking dispatch failed:", err);
         });
 
         return {

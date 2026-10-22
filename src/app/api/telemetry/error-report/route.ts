@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { z } from "zod";
 import { checkRateLimit } from "@/lib/server/rate-limit";
-import { isResendConfigured } from "@/lib/server/email";
+import { isEmailConfigured, sendMail } from "@/lib/server/email";
 import { getAdminEmail } from "@/lib/server/auth";
-import { Resend } from "resend";
 
 const errorReportSchema = z.object({
   errorCode: z.string().min(1).max(100),
@@ -53,17 +52,9 @@ export async function POST(request: NextRequest) {
       console.warn(`[Telemetry Alert ${reportId}] Digest: ${validated.digest}`);
     }
 
-    // Failsafe automated email dispatch via Resend
-    if (isResendConfigured()) {
+    // Failsafe automated email dispatch via Nodemailer and Gmail SMTP
+    if (isEmailConfigured()) {
       try {
-        const apiKey = process.env.RESEND_API_KEY?.trim();
-        const fromEmail =
-          process.env.RESEND_FROM_EMAIL?.trim() ||
-          process.env.EMAIL_FROM?.trim() ||
-          "Slotly Telemetry <onboarding@resend.dev>";
-
-        const resend = new Resend(apiKey);
-
         const emailSubject = `🚨 [Slotly Alert] ${validated.errorCode} on ${validated.path}`;
 
         const htmlBody = `
@@ -160,16 +151,15 @@ export async function POST(request: NextRequest) {
 </html>
         `;
 
-        await resend.emails.send({
-          from: fromEmail,
-          to: [adminEmail],
+        await sendMail({
+          to: adminEmail,
           subject: emailSubject,
           html: htmlBody,
         });
 
-        console.log(`[Telemetry Alert] Resend notification delivered to ${adminEmail} for ${reportId}`);
+        console.log(`[Telemetry Alert] Gmail notification delivered to ${adminEmail} for ${reportId}`);
       } catch (emailErr) {
-        console.warn(`[Telemetry Alert] Could not dispatch email via Resend for ${reportId}:`, emailErr);
+        console.warn(`[Telemetry Alert] Could not dispatch email via Gmail SMTP for ${reportId}:`, emailErr);
       }
     }
 

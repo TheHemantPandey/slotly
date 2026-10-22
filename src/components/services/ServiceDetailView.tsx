@@ -9,7 +9,6 @@ import {
   ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  XCircle,
   Clock,
   Sparkles,
   ShieldCheck,
